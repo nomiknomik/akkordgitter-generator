@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4 — 2026-07-26
+- `G7+` (`7#5`, E-Form) um die hohe E-Saite ergänzt — Abweichung vom Original,
+  gefunden beim Testen des neuen Extraktionswerkzeugs
+- **Werkzeuge**: `tools/griffbild_lesen.py` (liest Griffbilder per Pixelanalyse
+  aus Bildern aus, erkennt Saitenspalten, Bundzeilen, Punkte, x/o-Marker und die
+  Bezugszeile der Lagenziffer) und `tools/voicing_pruefen.py` (rechnet Bundlisten
+  gegen die Akkordtöne, behandelt Rootless-Voicings als Hinweis statt Fehler)
+- **Dokumentation**: `docs/pdf-extraktion.md`, `docs/roadmap.md`,
+  `docs/skill-ideen.md`, `docs/entwicklungslog.md`; `CLAUDE.md` als vollständiger
+  Projekteinstieg neu gefasst; `griffbibliothek.md` um Prüf-Workflow und
+  Korrekturhistorie erweitert
+
 ## v1.3 — 2026-07-26
 - **Korrektur der Slash-Akkord-Voicings** gegen die Original-Griffbilder im PDF
   (pixelgenau nachvollzogen): `C6/G` und `E7/B` enthielten eine zusätzliche,
