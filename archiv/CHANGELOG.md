@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.2 — 2026-07-26
+- Zeilenumbruch strikt nach „Takte/Zeile“ (Standard **8 Kästchen pro Reihe**);
+  Schriftgrößen skalieren über Container-Queries mit der Boxbreite
+- **Instrumentenauswahl**: Gitarre, Drop D, Ukulele (High-/Low-G), Baritonukulele,
+  Mandoline, Tenorbanjo, Bass — Griffbilder und Wiedergabetonhöhen folgen der Stimmung
+- **Griffgenerator** `genVoicings()`: berechnet Griffe aus den Akkordtönen für alle
+  Instrumente ohne kuratierte Bibliothek und als Rückfallebene bei der Gitarre;
+  Lagenangabe `0` = offener Akkord
+- **Harmonische Analyse**: Quintfallketten, ii–V(–I), Zwischendominanten,
+  Tritonussubstitution vs. chromatische Rückung, verminderte Durchgänge,
+  Modal Interchange, Schlusswendung, Stufenfolge je Formteil
+- **Klangfarben** für die Wiedergabe: Stahlsaite, Nylon/Jazz, Klavier, E-Piano,
+  Vibraphon, Streicher
+- Gleiche Akkorde werden in der Grifftabelle zusammengefasst: `C6` und `CM6`
+  ergeben eine Karte mit Hinweis auf die andere Schreibweise
+
 ## v1.1 — 2026-07-26
 - Taktboxen quadratisch (`aspect-ratio: 1/1`)
 - Taktaufteilungen nach eBook-Vorlage: 4 · 2+2 · 1+1+2 · 2+1+1 · 1+1+1+1
