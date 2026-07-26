@@ -7,8 +7,25 @@ Akkordfolge in ein Akkordgitter im Stil der *Gypsy Jazz Chord eBooks*
 - **Lage** (Bundangabe) links oben in jedem Takt — automatisch aus der Griffbibliothek berechnet
 - **Stufe in der Tonart** als Randnotiz rechts oben (inkl. Zwischendominanten `V7/x`)
 - **Griffbilder** aller vorkommenden Akkorde unterhalb des Gitters, mit umschaltbaren Lagen
+- **Quadratische Taktboxen** mit den Aufteilungen der Vorlage (4 · 2+2 · 1+1+2 · 2+1+1 · 1+1+1+1
+  sowie die Keilformen „nur 1. Beat“ / „nur letzter Beat“)
+- **Wiedergabe** mit stufenlosem Tempo (40–300 BPM), Metronom, Loop, Einzähler und mitlaufendem Playhead
+- **Undo/Redo** (Strg+Z / Strg+Shift+Z), Leertaste startet und stoppt
 - Takte direkt im Gitter anklickbar/editierbar, Rückschreiben in die Textquelle
 - Export/Import als JSON, Druck-/PDF-Layout via `@media print`
+
+## Projektstruktur
+
+```
+index.html            die App (alles in einer Datei)
+CLAUDE.md             Projektkontext für neue Claude-Chats
+docs/syntax.md        Eingabesyntax
+docs/griffbibliothek.md   Griffe ergänzen
+docs/taktaufteilung.md    Geometrie der Taktunterteilungen
+archiv/CHANGELOG.md   Versionshistorie
+archiv/v1.0/          eingefrorene Vorversion
+charts/               gespeicherte Charts (JSON)
+```
 
 ## Eingabesyntax
 
@@ -20,6 +37,8 @@ Akkordfolge in ein Akkordgitter im Stil der *Gypsy Jazz Chord eBooks*
 | `[A]` | Formteil-Marke |
 | `C6/G` | Bassnote (Slash-Akkord) |
 | `C6@8` | Lage erzwingen (Ankerton in Bund 8) |
+| `C6:2` | Dauer in Beats (steuert Taktaufteilung und Wiedergabe) |
+| `>C6` / `<C6` | nur 1. bzw. nur letzter Beat des Taktes |
 | `-` | Moll (`D-9` = Dm9) |
 | `°` / `o` | vermindert |
 | `0` / `ø` | halbvermindert |
@@ -45,6 +64,8 @@ Akkordfolge in ein Akkordgitter im Stil der *Gypsy Jazz Chord eBooks*
 `QFAMILY` (Bibliotheksschlüssel → Klanggeschlecht für die Stufenanalyse).
 
 **Stufenlogik** → `degreeOf()`; diatonische Referenz in `DIATONIC_MAJ` / `DIATONIC_MIN`.
+
+Ausführlich: [`docs/syntax.md`](docs/syntax.md)
 
 ## Nächste Ideen
 
