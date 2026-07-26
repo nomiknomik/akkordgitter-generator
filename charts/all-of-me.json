@@ -4,8 +4,10 @@
   "mode": "maj",
   "meter": "4/4",
   "form": "AABA",
-  "bpl": 4,
+  "bpl": 8,
   "bpm": 180,
   "src": "[A]\n C6/G | % | E7/B | %\n A7 | % | B0 | %\n[A2]\n E7 | F° | CM6 | Am\n D7 | % | D-9 | G7+\n[B]\n C6/G | % | E7 | %\n E° C#° | B0 | B0 | B0 C°\n[A3]\n C6 Bb7 | A7 | D7 | C#7\n C6/9 Eb7 | D-9 C#7 | C6 | %",
-  "variants": {}
+  "variants": {},
+  "inst": "gitarre",
+  "sound": "steel"
 }
