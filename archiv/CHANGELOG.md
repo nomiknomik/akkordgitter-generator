@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.3 — 2026-07-26
+- **Korrektur der Slash-Akkord-Voicings** gegen die Original-Griffbilder im PDF
+  (pixelgenau nachvollzogen): `C6/G` und `E7/B` enthielten eine zusätzliche,
+  im Original stummgeschaltete Note auf der H-Saite. `E7/B` ist jetzt korrekt
+  als „rootless“ Voicing (Bass=Quinte, ohne Grundton) hinterlegt, wie im Original.
+  Bei der Gelegenheit auch `7/4` und `m7/3` korrigiert, die zuvor
+  akkordfremde Töne enthielten (unabhängig vom PDF entdeckt, beim Nachrechnen aller
+  Slash-Voicings aufgefallen).
+- **Schrift im Akkordgitter deutlich vergrößert** (Chordsymbole, Lage- und
+  Stufenangabe), angelehnt an die Originalgröße im eBook.
+
 ## v1.2 — 2026-07-26
 - Zeilenumbruch strikt nach „Takte/Zeile“ (Standard **8 Kästchen pro Reihe**);
   Schriftgrößen skalieren über Container-Queries mit der Boxbreite
