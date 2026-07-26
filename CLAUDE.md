@@ -25,6 +25,8 @@ kommuniziert deutsch, mag knappe Antworten und Token-Effizienz.
 | `docs/syntax.md` | vollständige Eingabesyntax |
 | `docs/griffbibliothek.md` | Format der `SHAPES`, wie neue Griffe ergänzt werden |
 | `docs/taktaufteilung.md` | Geometrie der Taktunterteilungen (Original-Vorlage) |
+| `docs/instrumente.md` | Stimmungen und Funktionsweise des Griffgenerators |
+| `docs/analyse.md` | Regeln der harmonischen Analyse und ihre Grenzen |
 | `archiv/CHANGELOG.md` | Versionshistorie |
 | `archiv/v1.0/index.html` | eingefrorene Vorgängerversion |
 | `charts/*.json` | gespeicherte Charts (Export-Format der App) |
@@ -35,13 +37,16 @@ Das `<script>` ist in nummerierte Abschnitte gegliedert — beim Bearbeiten
 **gezielt per `str_replace`** arbeiten, nicht die Datei neu schreiben.
 
 1. **Musik-Grundlagen** — `NOTES`, `FLATS`, `OPEN` (Leersaiten in Halbtönen), `pitchOf()`
-2. **Griff-Bibliothek** — `SHAPES` (Voicings), `QMAP` (Schreibweise → Qualität),
-   `QFAMILY` (Qualität → Klanggeschlecht für die Stufenanalyse)
+2. **Griff-Bibliothek** — `SHAPES` (kuratierte Gitarrenvoicings), `QMAP` (Schreibweise →
+   Qualität), `QSHORT` (kanonische Kurzschreibweise), `QFAMILY` (Klanggeschlecht),
+   `CHORD_TONES`/`ESSENTIAL` (Akkordtöne für den Generator), `INSTRUMENTS` (Stimmungen)
 3. **Parser** — `parseChord()` (Grundton, Qualität, Bassnote, `@Lage`, `:Beats`),
    `parseSource()` (Zeilen → Takte, `[Formteil]`, Zeilenumbruch)
 4. **Stufenanalyse** — `degreeOf()`, `ROMAN`, `DIATONIC_MAJ/MIN`, Zwischendominanten
-5. **Griffberechnung** — `shapesFor()`, `allVoicings()` (alle spielbaren Lagen,
-   nach Bund sortiert), `bestVoicing()`, `diagramSVG()`
+4b. **Harmonische Analyse** — `analyzeChart()`: Quintfallketten, ii–V, Tritonussub,
+   verminderte Durchgänge, Modal Interchange, Schlusswendung (regelbasiert)
+5. **Griffberechnung** — `shapesFor()`, `genVoicings()` (Griffe aus Akkordtönen für
+   beliebige Stimmungen), `allVoicings()`, `bestVoicing()`, `diagramSVG()`
 6. **Rendering** — `render()` baut das Blatt **und** `state.bars` (Grundlage der
    Wiedergabe); `buildBar()`, `defaultBeats()`, `LAYOUTS`, `layoutFor()`, `renderBar()`,
    `bindSheet()` (Inline-Edit + Lagenwechsel), `writeBack()`
@@ -54,7 +59,11 @@ Das `<script>` ist in nummerierte Abschnitte gegliedert — beim Bearbeiten
 
 ```js
 // Akkord (aus parseChord)
-{raw, rootName, rootPitch, quality, qtext, bassName, bassPitch, pos?, beats, name, err?}
+{raw, rootName, rootPitch, quality, qtext, bassName, bassPitch, pos?, beats,
+ name,    // wie geschrieben, z. B. "CM6"
+ short,   // kanonisch, z. B. "C6"
+ canon,   // Identität "pitch|quality|bass" – C6 und CM6 sind gleich
+ err?}
 
 // Takt (aus buildBar) — liegt in state.bars, Reihenfolge = Spielreihenfolge
 {raw, line, tok, idx, wedge:null|'first'|'last', repeat:bool, chords:[Akkord]}
@@ -71,7 +80,9 @@ Das `<script>` ist in nummerierte Abschnitte gegliedert — beim Bearbeiten
 - **Deutsch** in UI, Kommentaren und Doku.
 - Kein Framework, kein Build, **kein `localStorage`** (in claude.ai-Artefakten verboten) —
   Persistenz läuft über JSON-Export/-Import.
-- Neue Akkordqualität ergänzen = drei Stellen: `SHAPES`, `QMAP`, `QFAMILY`.
+- Neue Akkordqualität ergänzen = fünf Stellen: `SHAPES` (Gitarre), `QMAP`, `QSHORT`,
+  `QFAMILY`, `CHORD_TONES` + `ESSENTIAL` (für den Generator).
+- `state.variants` ist nach `canon` verschlüsselt, nicht nach Schreibweise.
 - Voicings vor dem Einchecken gegen die Akkordtöne rechnen
   (Halbton = `(OPEN[saite] + bund) % 12`), nicht aus dem Gedächtnis eintragen.
 - Versionsnummer bei jeder inhaltlichen Änderung in `archiv/CHANGELOG.md` fortschreiben.
@@ -90,6 +101,7 @@ schneiden und `module.exports` anhängen.
 ## Offene Ideen
 
 - Transponieren (Tonart wechseln → Akkorde mitziehen)
+- Automatische Tonarterkennung als Vorschlag für den Kopfbereich
 - Songbook: mehrere Charts in einer Datei, Sammel-PDF
 - Bass-Line/„La Pompe“-Rhythmus statt gleichmäßiger Schläge
 - Automatische Lagenwahl nach kleinster Griffbewegung zum Vorgängerakkord
