@@ -9,7 +9,12 @@ Akkordfolge in ein Akkordgitter im Stil der *Gypsy Jazz Chord eBooks*
 - **Griffbilder** aller vorkommenden Akkorde unterhalb des Gitters, mit umschaltbaren Lagen
 - **Quadratische Taktboxen** mit den Aufteilungen der Vorlage (4 · 2+2 · 1+1+2 · 2+1+1 · 1+1+1+1
   sowie die Keilformen „nur 1. Beat“ / „nur letzter Beat“)
-- **Wiedergabe** mit stufenlosem Tempo (40–300 BPM), Metronom, Loop, Einzähler und mitlaufendem Playhead
+- **Instrumente**: Gitarre, Drop D, Ukulele, Baritonukulele, Mandoline, Tenorbanjo, Bass —
+  Griffe werden für fremde Stimmungen aus den Akkordtönen berechnet
+- **Harmonische Analyse** unter dem Gitter: ii–V, Zwischendominanten, Tritonussubstitution,
+  verminderte Durchgänge, Modal Interchange, Schlusswendung
+- **Wiedergabe** mit stufenlosem Tempo (40–300 BPM), sechs Klangfarben, Metronom, Loop,
+  Einzähler und mitlaufendem Playhead
 - **Undo/Redo** (Strg+Z / Strg+Shift+Z), Leertaste startet und stoppt
 - Takte direkt im Gitter anklickbar/editierbar, Rückschreiben in die Textquelle
 - Export/Import als JSON, Druck-/PDF-Layout via `@media print`
@@ -22,6 +27,8 @@ CLAUDE.md             Projektkontext für neue Claude-Chats
 docs/syntax.md        Eingabesyntax
 docs/griffbibliothek.md   Griffe ergänzen
 docs/taktaufteilung.md    Geometrie der Taktunterteilungen
+docs/instrumente.md       Stimmungen, Griffgenerator
+docs/analyse.md           Regeln der harmonischen Analyse
 archiv/CHANGELOG.md   Versionshistorie
 archiv/v1.0/          eingefrorene Vorversion
 charts/               gespeicherte Charts (JSON)
