@@ -48,6 +48,17 @@ Drei Stellen anpassen:
 3. `QFAMILY` — Bibliotheksschlüssel → `maj` | `dom` | `min` | `dim` | `hdim` | `aug`
    (steuert Groß-/Kleinschreibung und Suffix der Stufenangabe)
 
+## Herkunft der Voicings
+
+Die Einträge in `SHAPES` stammen aus dem Gypsy-Jazz-Chord-eBook (DjangoSolos,
+Colin Cosimini). Sie sind **nicht** beliebige gültige Griffe, sondern die
+stilistisch gemeinten Formen. Wer sie ändert, ändert den Klang des Buches —
+also nur mit Vorlage.
+
+Kommen Voicings aus einer **zweiten Quelle** dazu, siehe
+[`roadmap.md`](roadmap.md), Arbeitspaket 1: dort steht die offene Entwurfsfrage
+zur Herkunftskennzeichnung.
+
 ## Voicing gegenrechnen
 
 Vor dem Einchecken prüfen, ob die Töne stimmen:
@@ -58,3 +69,31 @@ Halbton = (OPEN[saite] + bund) % 12      OPEN = [4, 9, 2, 7, 11, 4]   // E A D G
 
 Beispiel `C6` A-Form, Ankerbund 3 → Bünde `x 3 2 2 1 x`
 → `(9+3)%12=0` C, `(2+2)%12=4` E, `(7+2)%12=9` A, `(11+1)%12=0` C → C·E·A = C6 ✓
+
+Bequemer mit dem Werkzeug:
+
+```bash
+python3 tools/voicing_pruefen.py C6 x 3 2 2 1 x
+```
+
+Es meldet akkordfremde und fehlende Töne und gibt die Spanne aus. Ein fehlender
+**Grundton** ist nur ein Hinweis (Rootless-Voicings sind üblich), eine fehlende
+**Terz** oder **Septime/Sexte** dagegen ein echter Fehler.
+
+## Achtung: Töne prüfen ≠ Vorlage treffen
+
+Die Tonprüfung findet falsche Töne — aber nicht das falsche Voicing. Das bis v1.2
+hinterlegte `E7/B` (`7,7,9,7,9,x`) bestand sie fehlerfrei, war aber trotzdem falsch:
+Das Original schreibt ein Rootless-Voicing mit stummer A- und H-Saite vor
+(`7,x,6,7,x,x`). **Immer zusätzlich das Bild vergleichen**, Vorgehen in
+[`pdf-extraktion.md`](pdf-extraktion.md).
+
+## Korrekturhistorie
+
+| Version | Shape | Was war falsch |
+|---|---|---|
+| v1.3 | `6/7` (`C6/G`) | Zusatznote auf der H-Saite, im Original stumm |
+| v1.3 | `7/7` (`E7/B`) | war nicht als Rootless-Voicing angelegt |
+| v1.3 | `7/4` | akkordfremde Töne (beim Nachrechnen gefunden) |
+| v1.3 | `m7/3` | akkordfremde Töne (beim Nachrechnen gefunden) |
+| v1.3 | `7#5` (`G7+`) | hohe E-Saite fehlte gegenüber dem Original |
