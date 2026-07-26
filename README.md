@@ -29,6 +29,12 @@ docs/griffbibliothek.md   Griffe ergänzen
 docs/taktaufteilung.md    Geometrie der Taktunterteilungen
 docs/instrumente.md       Stimmungen, Griffgenerator
 docs/analyse.md           Regeln der harmonischen Analyse
+docs/pdf-extraktion.md    Griffe und Songs aus einem PDF übernehmen
+docs/roadmap.md           geplante Arbeitspakete
+docs/skill-ideen.md       was sich als eigener Skill lohnt
+docs/entwicklungslog.md   Entscheidungen, Fehler, Prüfvorgehen
+tools/griffbild_lesen.py  liest Griffbilder aus Bildern aus
+tools/voicing_pruefen.py  rechnet Voicings gegen die Akkordtöne
 archiv/CHANGELOG.md   Versionshistorie
 archiv/v1.0/          eingefrorene Vorversion
 charts/               gespeicherte Charts (JSON)
