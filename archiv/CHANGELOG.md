@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.10 — 2026-07-27
+- **Holovaty-Chart *All Of Me* um Solo-Chorus und erweitertes Schluss-Tag ergänzt**
+  (Takt 33–68, aus der Vektorebene der PDF gelesen, siehe `docs/pdf-extraktion.md`).
+  Solo-Chorus (`[Solo A]`/`[Solo B]`/`[Solo A2]`) ist akkordgleich mit
+  `[A]`/`[B]`/`[A2]`; `[Solo C]` bricht nach der ersten Hälfte ab und mündet in
+  `[Tag2]` (D7–G7 als vorgeschalteter Turnaround vor E7–A7–D7–G7–C6/9, letzter
+  Takt gehalten). Das ursprüngliche `[Tag]` nach dem ersten Durchgang war ein
+  Duplikat und wurde entfernt — im Original kommt das Tag nur einmal, ganz am
+  Ende. Von Alexander Zabelyshenskiy bemerkt.
+- **Formteile umbenannt** (`[Solo]`→`[Solo A]`, `[SoloB]`→`[Solo B]`,
+  `[SoloA2]`→`[Solo A2]`, `[SoloC]`→`[Solo C]`): macht sichtbar, welche
+  Abschnitte akkordgleich sind, ohne dass die App eine Referenz-Syntax dafür
+  hätte — Formteil-Marken sind reine Anzeigetexte (`parseSource()`), keine
+  Verweise. Eine solche Referenz-Syntax bleibt offener Punkt, siehe
+  `docs/roadmap.md`.
+- **Video-Kalibrierung auf 4 Stützstellen erweitert** (Takt 3/9/13/17,
+  Ausgleichsrechnung statt Zweipunktbestimmung).
+- Eingebettete Vorgabe in `index.html` mit `charts/all-of-me-holovaty.json`
+  synchronisiert (`tools/chart_einbetten.py`).
+
 ## v1.9 — 2026-07-27
 - **Vier Bezugspunkte statt zwei** (vorbelegt mit Takt 3, 9, 13, 17), jeder mit
   eigener Feinjustierung in 20-ms-Schritten. Von Alexander Zabelyshenskiy
