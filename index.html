@@ -983,7 +983,9 @@ function render(){
   let prevChords=null, curSec=null;
   rows.forEach(row=>{
     if(row.section){ curSec=row.section; html+='<div class="sec-label">'+esc(row.section)+'</div>'; }
-    html+='<div class="line" style="grid-template-columns:repeat('+row.bars.length+',1fr)">';
+    html+='<div class="line" style="grid-template-columns:repeat('+row.bars.length+',1fr)'
+        + (row.bars.length<bpl ? ';width:'+(100*row.bars.length/bpl).toFixed(4)+'%' : '')
+        + '">';
     row.bars.forEach(bar=>{
       const m=buildBar(bar,prevChords,meterBeats);
       m.section=curSec;

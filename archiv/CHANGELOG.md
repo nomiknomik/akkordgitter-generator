@@ -26,6 +26,10 @@
 - **Stufenangabe im Gitter deutlich größer** (bis 21 px statt 15 px, halbfett).
 - **Hintergrund aufgehellt** (`#14181f` → `#2f3540`), Eingabefelder angepasst.
 - **Fußzeile** mit Version, Autor und Link auf das GitHub-Repository.
+- **Kürzere Zeilen behalten die Kachelgröße.** Bisher wurde jede Zeile auf die
+  volle Blattbreite gestreckt; da `.bar` quadratisch ist, wurden Takte einer
+  angebrochenen Zeile entsprechend größer. Solche Zeilen nehmen jetzt nur den
+  ihnen zustehenden Anteil ein (z. B. 6 von 8 Takten = 75 % Breite).
 - **Charts**: `all-of-me.json` aufgeteilt in `all-of-me-cosimini.json` und
   `all-of-me-holovaty.json`; neuer Umschalter lädt Charts direkt aus
   `charts/index.json` (nur über http/https, bei `file://` ausgeblendet).
