@@ -1,5 +1,25 @@
 # Changelog
 
+## v1.8 — 2026-07-27
+- **Beide Bezugspunkte der Video-Synchronisation sind frei wählbar.** Bisher
+  musste der erste Punkt auf Takt 1 liegen — der ist in einer Aufnahme oft am
+  schwersten zu treffen, etwa wenn ein Intro davorliegt. Jetzt gibt man zu jedem
+  Punkt die Taktnummer an; die Zeit von Takt 1 wird daraus zurückgerechnet, auch
+  wenn dieser Takt nie angeklickt wurde. Von Alexander Zabelyshenskiy angeregt.
+- **Ein Punkt genügt zum Anfangen.** Ist nur der erste Punkt gesetzt, dient das
+  Tempo des Charts als vorläufige Taktdauer. Die Zuordnung greift damit sofort
+  und wird als „Tempo noch geschätzt“ gekennzeichnet, bis ein zweiter Punkt sie
+  aus dem Video selbst ableitet.
+- **Feinjustierung in 50-ms-Schritten** (vor/zurück/zurücksetzen). Sie liegt als
+  eigener Wert neben der Kalibrierung und übersteht deshalb eine erneute
+  Tempobestimmung.
+- **Widersprüchliche Eingaben werden abgefangen**: gleicher Takt zweimal, oder
+  ein späterer Takt, der im Video früher liegt.
+- Liegt Takt 1 rechnerisch vor dem Videoanfang, wird das als Hinweis vermerkt
+  statt still auf 0 geklemmt — bei Aufnahmen, die mitten im Stück einsetzen,
+  ist das der Normalfall.
+- `requestAnimationFrame` wird abgesichert, falls die Umgebung es nicht kennt.
+
 ## v1.7 — 2026-07-27
 - **Taktversatz in der Video-Synchronisation behoben.** `data-bar` ist 0-basiert,
   die Taktnummern im Gitter sind 1-basiert — die Markierung lag deshalb einen

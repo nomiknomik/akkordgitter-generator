@@ -300,32 +300,20 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
       <label class="chk"><input type="checkbox" id="f-follow"> Video folgen</label>
     </div>
     <div class="help" style="margin:2px 0 8px">
-      Die App weiß nicht, wo im Video das Stück beginnt und wie schnell gespielt
-      wird. Dafür genügen zwei Bezugspunkte — welche Takte das sind, ist frei
-      wählbar. Nimm zwei, die du sicher hörst, und lege sie weit auseinander:
-      je größer der Abstand, desto genauer wird das Tempo.
+      Die App weiß nicht, wo im Video das Stück beginnt. Das sagt man ihr mit
+      zwei Klicks: einmal auf der Eins von Takt 1, einmal auf der Eins eines
+      späteren Taktes. Daraus ergibt sich das Tempo.
     </div>
     <div class="row">
-      <label class="f" style="flex:0 0 92px">Punkt 1 · Takt
-        <input type="number" id="f-cal1n" value="1" min="1" step="1">
-      </label>
-      <label class="f" style="flex:1"><span style="visibility:hidden">.</span>
-        <button id="b-cal1" title="Video auf die Eins dieses Taktes stellen, dann hier klicken">hier ist er</button>
-      </label>
+      <span style="flex:0 0 14px;font-size:11px;color:var(--muted);padding-top:8px">1.</span>
+      <button id="b-cal1" style="flex:1" title="Video auf die Eins von Takt 1 stellen, dann hier klicken">hier beginnt Takt 1</button>
     </div>
     <div class="row">
-      <label class="f" style="flex:0 0 92px">Punkt 2 · Takt
-        <input type="number" id="f-cal2n" value="17" min="1" step="1">
+      <span style="flex:0 0 14px;font-size:11px;color:var(--muted);padding-top:8px">2.</span>
+      <button id="b-caln" style="flex:1" title="Video auf die Eins des rechts eingestellten Taktes stellen, dann hier klicken">hier beginnt Takt</button>
+      <label class="f" style="flex:0 0 64px"><span style="visibility:hidden">.</span>
+        <input type="number" id="f-caln" value="9" min="2" step="1">
       </label>
-      <label class="f" style="flex:1"><span style="visibility:hidden">.</span>
-        <button id="b-cal2" title="Video auf die Eins dieses Taktes stellen, dann hier klicken">hier ist er</button>
-      </label>
-    </div>
-    <div class="row">
-      <span style="flex:0 0 auto;font-size:11px;color:var(--muted);padding-top:8px">Feinjustierung</span>
-      <button id="b-adjm" title="Gitter läuft dem Video voraus? Hier nachziehen">−50 ms</button>
-      <button id="b-adj0" title="Feinjustierung zurücksetzen">0</button>
-      <button id="b-adjp" title="Gitter hinkt nach? Hier vorziehen">+50 ms</button>
     </div>
     <div class="help" id="synco">Noch nicht kalibriert.</div>
   </fieldset>
@@ -363,7 +351,7 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
   </div>
   <div class="sheet" id="sheet"></div>
   <footer class="colophon">
-    <span><b>Akkordgitter-Generator</b> v1.8</span>
+    <span><b>Akkordgitter-Generator</b> v1.7</span>
     <span>Alexander Zabelyshenskiy</span>
     <a href="https://github.com/nomiknomik/akkordgitter-generator" target="_blank" rel="noopener">
       github.com/nomiknomik/akkordgitter-generator</a>
@@ -1441,8 +1429,7 @@ function togglePlay(){ audio.on?stopPlay():startPlay(); }
    Startzeit und Sekunden pro Takt. Das trägt so weit, wie das
    Tempo der Aufnahme gleichmäßig bleibt.
    ============================================================ */
-const vid = {player:null, ready:false, base:null, spb:null, adj:0,
-             p1:null, p2:null, grob:false, cur:null, id:'', raf:null};
+const vid = {player:null, ready:false, t0:null, spb:null, cur:null, id:'', raf:null};
 
 function ytId(s){
   s=(s||'').trim();
@@ -1484,65 +1471,32 @@ function ytLoad(){
   }
 }
 
-/* ------------------------------------------------------------
-   Kalibrierung über zwei frei wählbare Bezugspunkte.
-   Aus (Takt n1 bei t1) und (Takt n2 bei t2) ergibt sich die
-   Taktdauer; daraus wird die Zeit von Takt 1 zurückgerechnet —
-   auch dann, wenn Takt 1 selbst nie angeklickt wurde.
-   Ist nur ein Punkt gesetzt, dient das Tempo des Charts als
-   vorläufige Taktdauer, damit die Synchronisation schon greift.
-   `adj` ist eine getrennte Feinverschiebung, die eine erneute
-   Tempokalibrierung übersteht.
-   ------------------------------------------------------------ */
-function recalc(){
-  const B=state.meterBeats||4;
-  if(vid.p1&&vid.p2&&vid.p1.n!==vid.p2.n){
-    vid.spb=(vid.p2.t-vid.p1.t)/(vid.p2.n-vid.p1.n);
-    vid.grob=false;
-  }else if(vid.p1){
-    vid.spb=B*60/(parseInt($('f-bpm').value,10)||180);
-    vid.grob=true;
-  }
-  if(vid.p1&&vid.spb) vid.base=vid.p1.t-(vid.p1.n-1)*vid.spb;
-}
-function barTime(n){ return vid.base+vid.adj+(n-1)*vid.spb; }
-function istKalibriert(){ return vid.base!==null && !!vid.spb; }
-
 function syncInfo(){
-  const o=$('synco'); if(!o) return;
-  if(!istKalibriert()){ o.textContent='Noch nicht kalibriert.'; return; }
-  const B=state.meterBeats||4, t1=vid.base+vid.adj;
-  let h='Takt 1 liegt bei <b>'+t1.toFixed(2)+' s</b>, '
-      +vid.spb.toFixed(3)+' s je Takt &rarr; <b>'+Math.round(60*B/vid.spb)+' bpm</b>';
-  if(vid.adj) h+=' (Feinjustierung '+(vid.adj>0?'+':'')+Math.round(vid.adj*1000)+' ms)';
-  h+='.';
-  if(vid.grob) h+='<br><b>Tempo noch geschätzt</b> — es stammt aus dem Chart, nicht aus dem Video. '
-                 +'Für eine saubere Zuordnung einen zweiten, weit entfernten Punkt setzen.';
-  else h+='<br>„Video folgen“ einschalten — ein Klick auf einen Takt springt dann dorthin.';
-  if(t1<0) h+='<br>Rechnerisch läge Takt 1 vor dem Videoanfang. Das ist in Ordnung, '
-             +'solange die Aufnahme mittendrin einsetzt.';
-  o.innerHTML=h;
-}
-
-function calibrate(punkt){
-  if(!vid.player||!vid.ready){ $('synco').textContent='Erst ein Video laden.'; return; }
-  const n=parseInt($(punkt===1?'f-cal1n':'f-cal2n').value,10);
-  if(!n||n<1){ $('synco').textContent='Bitte eine gültige Taktnummer eintragen.'; return; }
-  const t=vid.player.getCurrentTime();
-  if(punkt===1) vid.p1={n,t}; else vid.p2={n,t};
-  if(vid.p1&&vid.p2){
-    if(vid.p1.n===vid.p2.n){ $('synco').textContent='Beide Punkte zeigen auf denselben Takt — bitte verschiedene Takte wählen.'; return; }
-    if((vid.p2.t-vid.p1.t)/(vid.p2.n-vid.p1.n)<=0){
-      $('synco').textContent='Die beiden Punkte widersprechen sich: der spätere Takt muss auch später im Video liegen.';
-      if(punkt===1) vid.p1=null; else vid.p2=null; return;
-    }
+  if(vid.t0===null){ $('synco').textContent='Noch nicht kalibriert.'; return; }
+  if(vid.spb===null){
+    $('synco').innerHTML='Takt 1 beginnt bei <b>'+vid.t0.toFixed(2)+' s</b>. '
+      +'Jetzt Schritt 2: an die Eins eines späteren Taktes spulen und dessen Nummer eintragen.';
+    return;
   }
-  recalc(); syncInfo(); pushHistDebounced();
+  const B=state.meterBeats||4;
+  $('synco').innerHTML='Fertig: Takt 1 bei <b>'+vid.t0.toFixed(2)+' s</b>, '
+    +vid.spb.toFixed(3)+' s je Takt &rarr; <b>'+Math.round(60*B/vid.spb)+' bpm</b>.'
+    +'<br>„Video folgen“ einschalten — ein Klick auf einen Takt springt dann dorthin.'
+    +'<br>Stimmt es nicht, Schritt 2 mit einem weiter entfernten Takt wiederholen: '
+    +'je größer der Abstand, desto genauer das Tempo.';
 }
-function feinjustieren(ms){
-  if(!istKalibriert()){ $('synco').textContent='Erst kalibrieren.'; return; }
-  vid.adj = ms===0 ? 0 : vid.adj+ms/1000;
-  vid.cur=null; syncInfo(); pushHistDebounced();
+function barTime(n){ return vid.t0 + (n-1)*vid.spb; }
+
+function calibrate(n){
+  if(!vid.player||!vid.ready){ $('synco').textContent='Erst ein Video laden.'; return; }
+  const t=vid.player.getCurrentTime();
+  if(n===1){ vid.t0=t; }
+  else{
+    if(vid.t0===null){ $('synco').textContent='Zuerst Takt 1 setzen.'; return; }
+    if(t<=vid.t0||n<2){ $('synco').textContent='Der zweite Punkt muss nach Takt 1 liegen.'; return; }
+    vid.spb=(t-vid.t0)/(n-1);
+  }
+  syncInfo(); pushHistDebounced();
 }
 
 /* Achtung: data-bar ist 0-basiert, die Taktnummern im Gitter sind 1-basiert. */
@@ -1556,17 +1510,16 @@ function markBar(n){
 }
 function ytFollow(){
   if(!$('f-follow').checked){ vid.raf=null; return; }
-  if(vid.player&&vid.ready&&istKalibriert()){
-    const n=Math.floor((vid.player.getCurrentTime()-vid.base-vid.adj)/vid.spb)+1;
+  if(vid.player&&vid.ready&&vid.t0!==null&&vid.spb){
+    const n=Math.floor((vid.player.getCurrentTime()-vid.t0)/vid.spb)+1;
     if(n!==vid.cur){ vid.cur=n; markBar(n); }
   }
-  vid.raf=(typeof requestAnimationFrame==='function')
-    ? requestAnimationFrame(ytFollow) : setTimeout(ytFollow,60);
+  vid.raf=requestAnimationFrame(ytFollow);
 }
 function toggleFollow(){
   if($('f-follow').checked){
     if(!vid.player){ $('f-follow').checked=false; $('synco').textContent='Erst ein Video laden.'; return; }
-    if(!istKalibriert()){ $('f-follow').checked=false; $('synco').textContent='Erst kalibrieren — mindestens Punkt 1 setzen.'; return; }
+    if(vid.t0===null||!vid.spb){ $('f-follow').checked=false; $('synco').textContent='Erst kalibrieren (zwei Takte setzen).'; return; }
     if(audio.on) stopPlay();                       // eigene Wiedergabe würde dagegenlaufen
     if(!vid.raf) ytFollow();
   }else{
@@ -1645,10 +1598,7 @@ function loadData(d){
   if($('f-vid')){
     const v=d.video||{};
     $('f-vid').value=v.id||'';
-    vid.base=(v.t0===undefined?null:v.t0); vid.spb=(v.spb===undefined?null:v.spb);
-    vid.adj=v.adj||0; vid.p1=v.p1||null; vid.p2=v.p2||null; vid.grob=!!v.grob;
-    if(v.p1&&$('f-cal1n')) $('f-cal1n').value=v.p1.n;
-    if(v.p2&&$('f-cal2n')) $('f-cal2n').value=v.p2.n;
+    vid.t0=(v.t0===undefined?null:v.t0); vid.spb=(v.spb===undefined?null:v.spb);
     if($('synco')) syncInfo();
   }
   if(d.groove && $('f-groove')) $('f-groove').value=d.groove;
@@ -1659,8 +1609,7 @@ function currentData(){
     meter:$('f-meter').value,form:$('f-form').value,bpl:+$('f-bpl').value,
     bpm:+$('f-bpm').value,inst:INST_ID,sound:$('f-sound').value,
     vsrc:SRCPREF, groove:($('f-groove')?$('f-groove').value:'gerade'),
-    video:{id:ytId($('f-vid')?$('f-vid').value:''), t0:vid.base, spb:vid.spb,
-           adj:vid.adj, p1:vid.p1, p2:vid.p2, grob:vid.grob},
+    video:{id:ytId($('f-vid')?$('f-vid').value:''), t0:vid.t0, spb:vid.spb},
     src:$('f-src').value,variants:state.variants};
 }
 
@@ -1677,10 +1626,7 @@ function currentData(){
   });
   $('b-vload').onclick=ytLoad;
   $('b-cal1').onclick=()=>calibrate(1);
-  $('b-cal2').onclick=()=>calibrate(2);
-  $('b-adjm').onclick=()=>feinjustieren(-50);
-  $('b-adjp').onclick=()=>feinjustieren(+50);
-  $('b-adj0').onclick=()=>feinjustieren(0);
+  $('b-caln').onclick=()=>calibrate(parseInt($('f-caln').value,10)||2);
   $('f-follow').addEventListener('change',toggleFollow);
   $('b-detect').onclick=()=>{
     const d=detectKey();
