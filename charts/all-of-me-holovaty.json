@@ -1,11 +1,11 @@
 {
   "title": "ALL OF ME",
   "quelle": "Adrian Holovaty, Chord-Melody-Arrangement",
-  "hinweis": "Akkordfolge und Griffe aus der Vektorebene des PDF gelesen; jedes Voicing gegen die Akkordtöne gegengerechnet. Die Melodiestimme des Arrangements ist nicht enthalten.",
+  "hinweis": "Akkordfolge und Griffe aus der Vektorebene des PDF gelesen; jedes Voicing gegen die Akkordtöne gegengerechnet. Die Melodiestimme des Arrangements ist nicht enthalten. Ab v2: Solo-Chorus (Takt 33-60, identisch zu A-B-A2, C nur erste Haelfte) und erweitertes Schluss-Tag (Takt 61-68, D7 G7 als Umkehr-Turnaround vor E7 A7 D7 G7 C6/9) aus der PDF ergaenzt.",
   "key": "C",
   "mode": "maj",
   "meter": "4/4",
-  "form": "ABAC + Tag",
+  "form": "ABAC + Solo-ABAC + Tag",
   "bpl": 8,
   "bpm": 200,
   "inst": "gitarre",
@@ -13,7 +13,7 @@
   "vsrc": "holovaty",
   "groove": "pompe",
   "variants": {},
-  "src": "[A]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[B]\n E7@7 | % | Am7/C@8 B°@7 | Am7@5\n D7@5 | % | G7@3 F/A@5 | Bb°@6 G/B@7\n[A2]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[C]\n F/A@5 | Fm/Ab@4 | C6@8 B6@7 Bb6@6 | A7@5\n D7@5 | G7@3 | C6@8 C#°@9 | Dm7@10 G9@10\n[Tag]\n E7@7 | A7@5 | D7@5 | G7@3\n C6/9@3 | %",
+  "src": "[A]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[B]\n E7@7 | % | Am7/C@8 B°@7 | Am7@5\n D7@5 | % | G7@3 F/A@5 | Bb°@6 G/B@7\n[A2]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[C]\n F/A@5 | Fm/Ab@4 | C6@8 B6@7 Bb6@6 | A7@5\n D7@5 | G7@3 | C6@8 C#°@9 | Dm7@10 G9@10\n[Tag]\n E7@7 | A7@5 | D7@5 | G7@3\n C6/9@3 | %\n[Solo]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[SoloB]\n E7@7 | % | Am7/C@8 B°@7 | Am7@5\n D7@5 | % | G7@3 F/A@5 | Bb°@6 G/B@7\n[SoloA2]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[SoloC]\n F/A@5 | Fm/Ab@4 | C6@8 B6@7 Bb6@6 | A7@5\n[Tag2]\n D7@5 | G7@3 | E7@7 | A7@5\n D7@5 | G7@3 | C6/9@3 | %",
   "abweichungen": [
     "Takt 16 (und in der Wiederholung Takt 48): Die Vorlage druckt Ab° im 4. Bund. Hier steht Bb° im 6. Bund — gleicher Griff, zwei Bünde höher. Grund: die Bassnote auf der tiefen E-Saite läuft F/A (5) – ? – G/B (7) – C6 (8); nur Bb (6) ergibt den chromatischen Anstieg A–B♭–H–C. Beide sind für sich gültige dim7-Griffe, die Vorlage ist also in sich stimmig, im Zusammenhang aber unplausibel. Korrektur von Alexander Zabelyshenskiy. Die Griffbibliothek bleibt unverändert — es ist dieselbe Form."
   ],
