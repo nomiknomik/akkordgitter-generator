@@ -2,7 +2,7 @@
 
 > **Einstiegspunkt für jeden neuen Chat.** Repo: `nomiknomik/akkordgitter-generator`
 > (öffentlich). Dateien per GitHub-API lesen (`github-push`-Skill) oder Repo klonen,
-> dann hier weiterlesen. Aktuelle Version: **v1.5**.
+> dann hier weiterlesen. Aktuelle Version: **v1.6**.
 >
 > Was als Nächstes geplant ist, steht in [`docs/roadmap.md`](docs/roadmap.md).
 

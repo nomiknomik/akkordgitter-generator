@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.6 — 2026-07-27
+- **Video-Synchronisation.** Ein YouTube-Video lässt sich einbetten und das
+  Gitter mitlaufen lassen: über zwei Stützstellen (Beginn von Takt 1 und Beginn
+  eines späteren Taktes) ergeben sich Startzeit und Sekunden je Takt, daraus
+  das Tempo. Bei aktivem „Video folgen“ springt ein Klick auf einen Takt an die
+  passende Stelle. Eingebettet über `youtube-nocookie.com`; die eigene Wiedergabe
+  wird dabei angehalten. Die Zuordnung ist linear und trägt so weit, wie das
+  Tempo der Aufnahme gleichmäßig bleibt. Video-ID und Kalibrierung stehen im
+  Chart-JSON unter `video`.
+- **Korrektur Takt 16 und 48** im Holovaty-Chart: statt `Ab°` im 4. Bund steht
+  dort jetzt `Bb°` im 6. Bund. Es ist derselbe Griff, zwei Bünde höher. Die
+  Bassnote auf der tiefen E-Saite läuft damit F/A (5) – B♭° (6) – G/B (7) –
+  C6 (8), also chromatisch aufwärts; die Vorlage bricht diese Linie. Beide sind
+  für sich gültige dim7-Griffe, die Vorlage ist also in sich stimmig, im
+  Zusammenhang aber unplausibel. Vermerkt im Chart unter `abweichungen`; die
+  Griffbibliothek bleibt unverändert.
+
 ## v1.5 — 2026-07-27
 - **Zweite Quelle in der Griffbibliothek.** Aus dem Chord-Melody-Arrangement von
   Adrian Holovaty zu *All Of Me* wurden 67 Griffbilder ausgelesen; daraus

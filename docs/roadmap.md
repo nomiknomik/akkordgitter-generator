@@ -4,7 +4,7 @@ Stand v1.5.
 
 ---
 
-## Erledigt in v1.5
+## Erledigt in v1.5 / v1.6
 
 - **Zweite Quelle in der Bibliothek** (Holovaty, *All Of Me*) — die in v1.3
   offene Entwurfsfrage ist entschieden: jedes Shape trägt ein Feld `q`, dazu
@@ -13,6 +13,8 @@ Stand v1.5.
 - **Zweite Interpretation als Chart** (`charts/all-of-me-holovaty.json`) samt
   Auswahlmenü, das die Dateien aus `charts/index.json` direkt anbietet.
 - **La Pompe**, **automatische Tonarterkennung**, farbcodierte Griffbilder.
+- **Video-Synchronisation** mit YouTube (v1.6), lineare Zuordnung über zwei
+  Stützstellen.
 
 ---
 
@@ -52,3 +54,9 @@ Kandidatin schärfer geworden:
   Walzer, „à la Django“ mit Bassläufen) wären hörbar besser.
 - **Melodiestimme**: die Arrangements enthalten TAB, die App nicht. Bewusst
   ausgeklammert — hier geht es um Akkordgitter.
+- **Video-Synchronisation bei schwankendem Tempo**: die Zuordnung ist linear.
+  Für Aufnahmen mit ziehendem Tempo wären mehrere Stützstellen mit abschnitts-
+  weiser Interpolation nötig.
+- **Video über mehrere Chorusse**: der Chart umfasst einen Durchgang, die
+  Aufnahme mehrere. Derzeit kalibriert man auf den Durchgang, den man braucht;
+  ein Umlauf über die Formlänge wäre die naheliegende Erweiterung.

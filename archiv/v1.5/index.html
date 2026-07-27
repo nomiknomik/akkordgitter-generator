@@ -161,15 +161,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 .ana .tag{font-family:var(--font-mono);font-size:10px;background:#efe9d9;border-radius:3px;padding:1px 5px;margin-right:6px;color:#5b5546}
 .ana .bars{font-family:var(--font-mono);font-size:10.5px;color:#7a7364}
 
-/* ---------- Video-Synchronisation ---------- */
-#ytwrap{max-width:1080px;margin:0 auto 16px;position:sticky;top:0;z-index:5;
-  background:var(--ink);padding-bottom:8px}
-#ytbox{aspect-ratio:16/9;width:100%;max-width:560px;background:#000;border-radius:3px;overflow:hidden}
-#ytbox iframe{width:100%;height:100%;border:0;display:block}
-#ythint{font-size:11px;color:var(--muted);margin-top:6px}
-.bar.synced{background:#fdf0c4;box-shadow:inset 0 0 0 2px var(--brass)}
-@media print{ #ytwrap{display:none !important} }
-
 /* ---------- Kolophon ---------- */
 .colophon{
   max-width:1080px;margin:14px auto 26px;padding:10px 4px 0;
@@ -288,27 +279,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
     </div>
   </fieldset>
 
-  <fieldset>
-    <legend>Video-Synchronisation</legend>
-    <div class="row">
-      <label class="f">YouTube-Adresse oder Video-ID
-        <input type="text" id="f-vid" placeholder="https://www.youtube.com/watch?v=…">
-      </label>
-    </div>
-    <div class="row">
-      <button id="b-vload">Video laden</button>
-      <label class="chk"><input type="checkbox" id="f-follow"> Video folgen</label>
-    </div>
-    <div class="row">
-      <button id="b-cal1" title="Video an den Beginn von Takt 1 stellen, dann hier klicken">Takt 1 setzen</button>
-      <label class="f" style="flex:0 0 78px">Takt
-        <input type="number" id="f-caln" value="9" min="2" step="1">
-      </label>
-      <button id="b-caln" title="Video an den Beginn dieses Taktes stellen, dann hier klicken">setzen</button>
-    </div>
-    <div class="help" id="synco">Noch nicht kalibriert.</div>
-  </fieldset>
-
   <div class="btns">
     <button class="primary" id="b-render">Aktualisieren</button>
     <button id="b-undo" title="Strg+Z">↶ Undo</button>
@@ -336,13 +306,9 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 
 <!-- ================= CHART ================= -->
 <main class="main">
-  <div id="ytwrap" style="display:none">
-    <div id="ytbox"></div>
-    <div id="ythint"></div>
-  </div>
   <div class="sheet" id="sheet"></div>
   <footer class="colophon">
-    <span><b>Akkordgitter-Generator</b> v1.6</span>
+    <span><b>Akkordgitter-Generator</b> v1.5</span>
     <span>Alexander Zabelyshenskiy</span>
     <a href="https://github.com/nomiknomik/akkordgitter-generator" target="_blank" rel="noopener">
       github.com/nomiknomik/akkordgitter-generator</a>
@@ -1192,10 +1158,6 @@ function bindSheet(){
   $('sheet').querySelectorAll('.bar').forEach(el=>{
     el.addEventListener('click',e=>{
       if(el.querySelector('input')) return;
-      if($('f-follow').checked && vid.player && vid.ready && vid.spb){
-        vid.player.seekTo(Math.max(0,barTime(+el.dataset.bar)),true);
-        return;                                   // im Folgemodus wird nicht bearbeitet
-      }
       const raw=el.getAttribute('data-raw');
       const inp=document.createElement('input');
       inp.className='inline'; inp.value=raw;
@@ -1413,103 +1375,6 @@ function stopPlay(){
 function togglePlay(){ audio.on?stopPlay():startPlay(); }
 
 /* ============================================================
-   10. VIDEO-SYNCHRONISATION (YouTube IFrame API)
-   ------------------------------------------------------------
-   Die Zuordnung ist linear: aus zwei Stützstellen (Beginn von
-   Takt 1 und Beginn eines späteren Taktes) ergeben sich
-   Startzeit und Sekunden pro Takt. Das trägt so weit, wie das
-   Tempo der Aufnahme gleichmäßig bleibt.
-   ============================================================ */
-const vid = {player:null, ready:false, t0:null, spb:null, cur:null, id:'', raf:null};
-
-function ytId(s){
-  s=(s||'').trim();
-  if(!s) return '';
-  const m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);
-  if(m) return m[1];
-  return /^[A-Za-z0-9_-]{11}$/.test(s) ? s : '';
-}
-function ytHint(t){ $('ythint').innerHTML=t; }
-
-function ytLoad(){
-  const id=ytId($('f-vid').value);
-  if(!id){ $('synco').textContent='Adresse nicht erkannt — erwartet wird ein YouTube-Link oder eine 11-stellige ID.'; return; }
-  vid.id=id; $('ytwrap').style.display='';
-  if(!location.protocol.startsWith('http')){
-    ytHint('Die YouTube-Einbindung braucht http(s). Über <code>file://</code> geöffnet funktioniert sie nicht — '
-          +'die Datei auf einem Webserver ablegen oder die GitHub-Pages-Fassung nutzen.');
-    return;
-  }
-  ytHint('Video wird geladen …');
-  const start=()=>{
-    if(vid.player){ vid.player.loadVideoById(id); ytHint(''); return; }
-    vid.player=new YT.Player('ytbox',{
-      videoId:id, host:'https://www.youtube-nocookie.com',
-      playerVars:{rel:0, modestbranding:1, playsinline:1},
-      events:{
-        onReady:()=>{ vid.ready=true; ytHint('Video bereit. Zum Kalibrieren an den Beginn von Takt 1 spulen und „Takt 1 setzen“ drücken.'); },
-        onError:e=>ytHint('Das Video lässt sich nicht einbetten (Fehler '+e.data+'). Möglicherweise hat der Rechteinhaber die Einbettung gesperrt.')
-      }
-    });
-  };
-  if(window.YT && window.YT.Player) return start();
-  window.onYouTubeIframeAPIReady=start;
-  if(!document.getElementById('ytapi')){
-    const s=document.createElement('script');
-    s.id='ytapi'; s.src='https://www.youtube.com/iframe_api';
-    s.onerror=()=>ytHint('Die YouTube-Programmschnittstelle ließ sich nicht laden (keine Verbindung?).');
-    document.head.appendChild(s);
-  }
-}
-
-function syncInfo(){
-  if(vid.t0===null){ $('synco').textContent='Noch nicht kalibriert.'; return; }
-  if(vid.spb===null){ $('synco').textContent='Takt 1 bei '+vid.t0.toFixed(2)+' s. Jetzt einen zweiten Takt setzen.'; return; }
-  const B=state.meterBeats||4;
-  $('synco').innerHTML='Takt 1 bei <b>'+vid.t0.toFixed(2)+' s</b>, '
-    +vid.spb.toFixed(3)+' s je Takt &rarr; <b>'+Math.round(60*B/vid.spb)+' bpm</b>.'
-    +'<br>Bei aktivem „Video folgen“ springt ein Klick auf einen Takt an die passende Stelle.';
-}
-function barTime(n){ return vid.t0 + (n-1)*vid.spb; }
-
-function calibrate(n){
-  if(!vid.player||!vid.ready){ $('synco').textContent='Erst ein Video laden.'; return; }
-  const t=vid.player.getCurrentTime();
-  if(n===1){ vid.t0=t; }
-  else{
-    if(vid.t0===null){ $('synco').textContent='Zuerst Takt 1 setzen.'; return; }
-    if(t<=vid.t0||n<2){ $('synco').textContent='Der zweite Punkt muss nach Takt 1 liegen.'; return; }
-    vid.spb=(t-vid.t0)/(n-1);
-  }
-  syncInfo(); pushHistDebounced();
-}
-
-function markBar(n){
-  document.querySelectorAll('.bar.synced').forEach(e=>e.classList.remove('synced'));
-  const el=document.querySelector('.bar[data-bar="'+n+'"]');
-  if(el){ el.classList.add('synced'); el.scrollIntoView({block:'nearest'}); }
-}
-function ytFollow(){
-  if(!$('f-follow').checked){ vid.raf=null; return; }
-  if(vid.player&&vid.ready&&vid.t0!==null&&vid.spb){
-    const n=Math.floor((vid.player.getCurrentTime()-vid.t0)/vid.spb)+1;
-    if(n!==vid.cur){ vid.cur=n; markBar(n); }
-  }
-  vid.raf=requestAnimationFrame(ytFollow);
-}
-function toggleFollow(){
-  if($('f-follow').checked){
-    if(!vid.player){ $('f-follow').checked=false; $('synco').textContent='Erst ein Video laden.'; return; }
-    if(vid.t0===null||!vid.spb){ $('f-follow').checked=false; $('synco').textContent='Erst kalibrieren (zwei Takte setzen).'; return; }
-    if(audio.on) stopPlay();                       // eigene Wiedergabe würde dagegenlaufen
-    if(!vid.raf) ytFollow();
-  }else{
-    vid.cur=null;
-    document.querySelectorAll('.bar.synced').forEach(e=>e.classList.remove('synced'));
-  }
-}
-
-/* ============================================================
    8. UNDO / REDO
    ============================================================ */
 const hist={stack:[],idx:-1,lock:false,timer:null};
@@ -1565,12 +1430,6 @@ function loadData(d){
   if($('f-inst').options.length) $('f-inst').value=INST_ID;
   if(d.sound) $('f-sound').value=d.sound;
   SRCPREF=d.vsrc||'alle'; if($('f-vsrc')) $('f-vsrc').value=SRCPREF;
-  if($('f-vid')){
-    const v=d.video||{};
-    $('f-vid').value=v.id||'';
-    vid.t0=(v.t0===undefined?null:v.t0); vid.spb=(v.spb===undefined?null:v.spb);
-    if($('synco')) syncInfo();
-  }
   if(d.groove && $('f-groove')) $('f-groove').value=d.groove;
   $('f-src').value=d.src||''; state.variants=d.variants||{}; render();
 }
@@ -1579,7 +1438,6 @@ function currentData(){
     meter:$('f-meter').value,form:$('f-form').value,bpl:+$('f-bpl').value,
     bpm:+$('f-bpm').value,inst:INST_ID,sound:$('f-sound').value,
     vsrc:SRCPREF, groove:($('f-groove')?$('f-groove').value:'gerade'),
-    video:{id:ytId($('f-vid')?$('f-vid').value:''), t0:vid.t0, spb:vid.spb},
     src:$('f-src').value,variants:state.variants};
 }
 
@@ -1594,10 +1452,6 @@ function currentData(){
   $('f-vsrc').addEventListener('change',()=>{
     SRCPREF=$('f-vsrc').value; state.variants={}; render(); pushHistDebounced();
   });
-  $('b-vload').onclick=ytLoad;
-  $('b-cal1').onclick=()=>calibrate(1);
-  $('b-caln').onclick=()=>calibrate(parseInt($('f-caln').value,10)||2);
-  $('f-follow').addEventListener('change',toggleFollow);
   $('b-detect').onclick=()=>{
     const d=detectKey();
     if(!d){ $('status').textContent='Keine Akkorde zum Auswerten.'; return; }
