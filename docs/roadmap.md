@@ -6,6 +6,10 @@ Stand v1.5.
 
 ## Erledigt in v1.5 / v1.6
 
+- **Solo-Chorus + erweitertes Tag im Holovaty-Chart** (v1.10, Takt 33–68 aus
+  der PDF ergänzt). Formteile umbenannt (`Solo A/B/A2/C`) statt eigener Namen,
+  damit akkordgleiche Abschnitte erkennbar bleiben.
+
 - **Zweite Quelle in der Bibliothek** (Holovaty, *All Of Me*) — die in v1.3
   offene Entwurfsfrage ist entschieden: jedes Shape trägt ein Feld `q`, dazu
   gibt es einen Quellenfilter. Rückwirkend wäre die Herkunft nicht mehr
@@ -67,3 +71,8 @@ Kandidatin schärfer geworden:
 - **Video über mehrere Chorusse**: der Chart umfasst einen Durchgang, die
   Aufnahme mehrere. Derzeit kalibriert man auf den Durchgang, den man braucht;
   ein Umlauf über die Formlänge wäre die naheliegende Erweiterung.
+- **Formteil-Referenzsyntax**: `[...]`-Marken sind reine Anzeigetexte
+  (`parseSource()`), keine Verweise. Akkordgleiche Wiederholungen (z. B. ein
+  Solo-Chorus identisch zu A-B-A2) müssen komplett ausgeschrieben werden. Eine
+  Syntax wie `[Solo A]=A` (Formteil übernimmt Takte eines vorherigen) würde das
+  vermeiden — betrifft Datenhaltung und Rendering, kein kleiner Eingriff.
