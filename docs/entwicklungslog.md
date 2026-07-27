@@ -91,3 +91,36 @@ Gepusht wird über die REST-API (`github-push`-Skill), kein git-CLI nötig.
 Nach einem Push dauert der Pages-Build etwa 15–30 Sekunden; ein zwischenzeitliches
 `errored` bei `/pages/builds/latest` kann noch in `built` umschlagen — erst der
 Endstand zählt.
+
+## Solo-Chorus und Tag nachträglich ergänzt (v1.10)
+
+Die erste Fassung des Holovaty-Charts deckte nur den ersten Durchgang plus ein
+angehängtes `[Tag]` ab (38 Takte) — die PDF hat aber 68 Takte: nach dem ersten
+Durchgang folgt ein vollständiger Solo-Chorus, danach erst das Tag.
+
+**Vorgehen:** Text- statt Vektor-Extraktion für die Akkordfolge (nicht die
+Griffbilder). `pdftotext -layout` lieferte für die Solo-Seiten stark verschachtelten,
+schwer zuordenbaren Text (Fingersatz- und Taktzahlen vermischt); verlässlich war
+erst der Abgleich gegen die rasterisierten Seiten (`pdftoppm`, visuell Takt für
+Takt gegen die bekannte Form A-B-A2-C geprüft, wie in `pdf-extraktion.md`
+für Griffbilder empfohlen — dasselbe Prinzip gilt für Akkordfolgen).
+
+**Ergebnis:** Solo-Chorus ist akkordgleich mit dem ersten Durchgang (A/B/A2),
+nur die zweite Hälfte von C fehlt — dort mündet die Aufnahme direkt in ein
+erweitertes Tag (D7–G7 als zusätzlicher Turnaround vor dem eigentlichen
+E7–A7–D7–G7–C6/9). Das ursprüngliche `[Tag]` nach dem ersten Durchgang gibt es
+in der Aufnahme so nicht — es war eine verkürzte Referenzfassung, kein
+tatsächlicher Bestandteil der Form. Entfernt, um Chart und Aufnahme deckungsgleich
+zu halten.
+
+**Benennung.** Erst `[Solo]`/`[SoloB]`/`[SoloA2]`/`[SoloC]` benutzt — das
+verschleiert, dass z. B. `[SoloB]` exakt `[B]` ist. Umbenannt zu
+`[Solo A]`/`[Solo B]`/`[Solo A2]`/`[Solo C]`. Geprüft, ob die App Formteile
+referenzieren kann (`parseSource()`, Zeile ~583): nein — `[...]`-Marken sind
+reine Anzeigetexte ohne Verweis-Mechanismus, jeder Takt muss ausgeschrieben
+werden. Echte Deduplizierung bräuchte neue Syntax (z. B. `[Solo A]=A`) — siehe
+`docs/roadmap.md`.
+
+→ *Lehre:* Bei mehrteiligen PDFs (Melodie + Solo + Tag) zuerst die volle
+Taktzahl aus `pdfinfo`/Blattzahl gegen die im Chart erfasste Taktzahl prüfen,
+bevor eine Extraktion als vollständig gilt.
