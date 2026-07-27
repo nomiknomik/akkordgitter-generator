@@ -1,0 +1,17 @@
+{
+  "title": "ALL OF ME",
+  "quelle": "Adrian Holovaty, Chord-Melody-Arrangement",
+  "hinweis": "Akkordfolge und Griffe aus der Vektorebene des PDF gelesen; jedes Voicing gegen die Akkordtöne gegengerechnet. Die Melodiestimme des Arrangements ist nicht enthalten.",
+  "key": "C",
+  "mode": "maj",
+  "meter": "4/4",
+  "form": "ABAC + Tag",
+  "bpl": 4,
+  "bpm": 200,
+  "inst": "gitarre",
+  "sound": "steel",
+  "vsrc": "holovaty",
+  "groove": "pompe",
+  "variants": {},
+  "src": "[A]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[B]\n E7@7 | % | Am7/C@8 B°@7 | Am7@5\n D7@5 | % | G7@3 F/A@5 | Ab°@4 G/B@7\n[A2]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[C]\n F/A@5 | Fm/Ab@4 | C6@8 B6@7 Bb6@6 | A7@5\n D7@5 | G7@3 | C6@8 C#°@9 | Dm7@10 G9@10\n[Tag]\n E7@7 | A7@5 | D7@5 | G7@3\n C6/9@3 | %"
+}

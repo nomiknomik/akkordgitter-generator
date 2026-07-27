@@ -16,9 +16,30 @@ Alle Voicings stehen im Objekt `SHAPES` (Abschnitt 2 im `<script>` von `index.ht
 | `a` | Halbtonabstand des Ankertons zum Grundton (Default `0`) |
 | `f` | sechs Bundabstände zum Ankerbund, Reihenfolge `[E, A, D, G, B, e]`, `null` = Saite nicht anschlagen |
 | `n` | Anzeigename der Form |
+| `q` | **Quelle** — Schlüssel in `QUELLEN`, z. B. `cosimini`, `holovaty` |
 
 Der **Ankerbund** ist die Zahl, die im Gitter links oben im Takt und im Griffbild
 links neben dem Diagramm steht. `f[s]` muss deshalb immer `0` sein.
+
+## Quelle mitschreiben — Pflicht
+
+Jedes Voicing stammt von einem konkreten Gitarristen; das ist der Wert dieser
+Sammlung gegenüber rechnerisch erzeugten Griffen. Die Herkunft lässt sich
+nachträglich **nicht** rekonstruieren, deshalb wird `q` bei jedem neuen Eintrag
+gesetzt und in `QUELLEN` ein Klartextname hinterlegt:
+
+```js
+const QUELLEN = {
+  cosimini: {n:'DjangoSolos / Colin Cosimini', j:'2009'},
+  holovaty: {n:'Adrian Holovaty, „All Of Me“',  j:'Arrangement'}
+};
+```
+
+Nachträge einer neuen Quelle stehen in `SHAPES_ADD` und werden beim Laden an
+`SHAPES` angehängt — so bleibt der Grundbestand als Block lesbar. Die Auswahl
+„Griffe bevorzugt aus“ sortiert Voicings der gewählten Quelle nach vorn; das
+wirkt auch auf `@n`, sodass ein Chart die Griffe eines bestimmten Buchs
+bundgenau reproduziert.
 
 Mehrere Einträge pro Qualität = mehrere Lagen. `allVoicings()` berechnet daraus
 alle spielbaren Positionen (Bund 1–15) und sortiert sie aufsteigend; im Griffbild

@@ -1,10 +1,86 @@
 # Akkorde und Songs aus einem PDF übernehmen
 
-Die Gypsy-Jazz-Chord-eBooks enthalten Griffbilder **nur als Grafik**. Der
-PDF-Textlayer liefert bestenfalls die Akkordnamen, nie die Bünde. Verlässlich ist
-die Pixelanalyse. Der folgende Weg ist erprobt (v1.3, an *All Of Me* verifiziert).
+Es gibt **zwei Wege**. Welcher taugt, hängt davon ab, wie das PDF gebaut ist —
+das prüft man in einer Zeile:
 
-## Werkzeuge im Repo
+```bash
+python3 -c "import fitz; d=fitz.open('buch.pdf'); print(len(d[0].get_drawings()),'Zeichenobjekte')"
+```
+
+| Ergebnis | Weg |
+|---|---|
+| viele Zeichenobjekte (Rechtecke + Kreise) | **A — Vektorebene**, exakt, immer zuerst versuchen |
+| kaum oder keine (Seite ist ein Bild) | **B — Pixelanalyse** mit `tools/griffbild_lesen.py` |
+
+---
+
+# Weg A — direkt aus der Vektorebene (empfohlen)
+
+Erprobt an *All Of Me* (Adrian Holovaty), v1.5: 67 Griffbilder, alle korrekt,
+ohne eine einzige Handkorrektur.
+
+Griffbilder solcher PDFs sind keine Grafik, sondern gezeichnete Primitive:
+Gitterlinien als dünne **Rechtecke**, Punkte als gefüllte **Kreise**. Beides
+lässt sich mit PyMuPDF punktgenau abgreifen — kein OCR, keine Schwellenwerte,
+keine Ausschnitte von Hand.
+
+## Ablauf
+
+1. **Objekte einsammeln** (`page.get_drawings()`):
+   - `('re',)`, breit und flach → waagerechte Bundlinie
+   - `('re',)`, schmal und hoch → senkrechte Saitenlinie
+   - `('re',)`, breit **und** hoch → Rahmen eines Griffbilds
+   - `('c','c')` → Punkt
+2. **Boxen bilden**: je Rahmen die sechs Saitenlinien und die Bundlinien darin
+   sammeln. Sechs senkrechte Linien = ein Griffbild.
+3. **Beschriftung zuordnen** über den Textlayer, unterschieden nach Schriftgrad:
+   Akkordname ≈ 11 pt, Lagenziffer und `X`-Marker ≈ 8 pt.
+4. **Bünde ausrechnen**: Reihenmitte jedes Punktes bestimmen, Reihe der
+   Lagenziffer als Bezug nehmen, Differenz aufaddieren.
+5. **Gegenrechnen** — Pflicht, siehe unten.
+
+## Zwei Fallen, die Zeit kosten
+
+**Geteilte Lagenziffer.** Stehen zwei Griffbilder nebeneinander, ist die Ziffer
+oft nur einmal gedruckt und steht *zwischen* beiden. Sucht man sie „irgendwo
+links“, greift man auf das Nachbardiagramm über und liegt um mehrere Bünde
+daneben. Richtig ist: nur die **unmittelbar** links angrenzende Ziffer nehmen
+(Abstand < 14 pt) und ihre senkrechte Lage gegen die Reihenmitten prüfen.
+
+**Sattelbalken statt Ziffer.** Diagramme ohne Lagenziffer sind nicht
+fehlerhaft — sie stehen in **offener Lage**. Erkennbar an einem verdickten,
+über den Rahmen hinausragenden Balken am oberen Rand (Rechteck, dessen `x0`
+kleiner und `x1` größer ist als der Rahmen). Dann gilt: erste Reihe = 1. Bund.
+Genau hieran scheiterten anfangs alle `Dm6`-Griffe und das schließende `C6/9`.
+
+## Gegenrechnen
+
+Auch bei exakter Geometrie gilt die Prüfpflicht — sie fängt falsch zugeordnete
+Namen und Lagen ab:
+
+```bash
+python3 tools/voicing_pruefen.py Dm6 x 2 3 2 3 x
+```
+
+Bewährte Zusatzprobe: die fertige Akkordfolge gegen die bekannte Form des
+Stücks halten. Bei *All Of Me* ergab sich lückenlos ABAC mit `F | Fm | C | A7`
+in Takt 25–28 — eine unabhängige Bestätigung, dass Takt- und Griffzuordnung
+stimmen. Zuletzt prüft ein Testlauf, ob die App mit `@n` bundgenau dieselben
+Griffe liefert wie das Buch.
+
+## Fehlerbild deuten
+
+- fehlender **Grundton** → kein Fehler, Rootless-Voicings sind normal
+- fehlende **Terz** oder **Septime/Sexte** → echter Fehler, Ausschnitt prüfen
+- dreitönige `dim`-Griffe ohne Quinte → normal, es sind `dim7`-Ausschnitte
+- Buchbezeichnung weicht ab (`Am/C` klingt als `Am7/C`) → Bezeichnung des
+  Autors beibehalten, das Voicing aber unter dem tatsächlichen Schlüssel ablegen
+
+---
+
+# Weg B — Pixelanalyse
+
+
 
 | Werkzeug | Zweck |
 |---|---|
@@ -12,6 +88,8 @@ die Pixelanalyse. Der folgende Weg ist erprobt (v1.3, an *All Of Me* verifiziert
 | `tools/voicing_pruefen.py` | rechnet eine Bundliste gegen die Akkordtöne |
 
 Beide brauchen nur `numpy`, `Pillow`, `scipy`.
+
+## Werkzeuge im Repo
 
 ## Ablauf: neue Griffe in die Datenbank
 

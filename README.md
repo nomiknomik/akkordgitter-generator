@@ -19,6 +19,22 @@ Akkordfolge in ein Akkordgitter im Stil der *Gypsy Jazz Chord eBooks*
 - Takte direkt im Gitter anklickbar/editierbar, Rückschreiben in die Textquelle
 - Export/Import als JSON, Druck-/PDF-Layout via `@media print`
 
+
+## Griffbibliothek und Quellen
+
+Die Voicings stammen aus Arrangements echter Gitarristen, nicht aus einem
+Generator. Jedes Shape trägt deshalb ein Quellenfeld:
+
+| Schlüssel | Quelle |
+|---|---|
+| `cosimini` | DjangoSolos / Colin Cosimini (2009) |
+| `holovaty` | Adrian Holovaty, Chord-Melody-Arrangement zu *All Of Me* |
+
+Über „Griffe bevorzugt aus“ lässt sich eine Quelle bevorzugen; die Herkunft
+steht unter jedem Griffbild. Wie eine weitere Quelle hinzukommt, steht in
+[`docs/pdf-extraktion.md`](docs/pdf-extraktion.md) und
+[`docs/griffbibliothek.md`](docs/griffbibliothek.md).
+
 ## Projektstruktur
 
 ```

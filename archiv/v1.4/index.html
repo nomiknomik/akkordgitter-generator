@@ -10,25 +10,16 @@
    Design-Tokens
    ============================================================ */
 :root{
-  --ink:        #2f3540;   /* Chrome-Hintergrund (heller Schiefer) */
-  --ink-2:      #3a4150;   /* Panels */
-  --ink-3:      #525b6b;   /* Rahmen */
-  --field:      #262c35;   /* Eingabefelder */
-  --brass:      #d4ac33;   /* Akzent: Messing / Gitarrensaite */
-  --brass-dim:  #9c8228;
+  --ink:        #14181f;   /* Chrome-Hintergrund (Tinte) */
+  --ink-2:      #1d232d;   /* Panels */
+  --ink-3:      #2a3341;   /* Rahmen */
+  --brass:      #c9a227;   /* Akzent: Messing / Gitarrensaite */
+  --brass-dim:  #8c7220;
   --paper:      #faf8f3;   /* Chartpapier */
   --paper-line: #111111;   /* Gitterlinien = tiefschwarz wie im Original */
-  --muted:      #b3bbc8;
-  --text:       #f2f4f7;
+  --muted:      #8a94a3;
+  --text:       #e8eaee;
   --degree:     #a2451f;   /* Stufenangabe (Randnotiz) */
-  /* Tonfunktionen im Griffbild */
-  --fn-root:    #8c2d1c;
-  --fn-terz:    #b8860b;
-  --fn-quint:   #5a6472;
-  --fn-sept:    #1f5f8b;
-  --fn-sext:    #3f7a3f;
-  --fn-none:    #6b3f8b;
-  --fn-alt:     #c2571a;
   --font-disp:  "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --font-ui:    "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-mono:  "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
@@ -59,7 +50,7 @@ legend{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--
 .row{display:flex;gap:8px;flex-wrap:wrap}
 label.f{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--muted);flex:1;min-width:90px}
 input[type=text],select,textarea{
-  background:var(--field);border:1px solid var(--ink-3);border-radius:4px;padding:7px 8px;width:100%;
+  background:#10141a;border:1px solid var(--ink-3);border-radius:4px;padding:7px 8px;width:100%;
 }
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brass-dim)}
 textarea{font-family:var(--font-mono);font-size:13px;line-height:1.9;min-height:230px;resize:vertical;white-space:pre;overflow-wrap:normal;overflow-x:auto}
@@ -81,7 +72,7 @@ button.primary:hover{background:#dfb62d;color:#141414}
 .bpm{font-family:var(--font-mono);font-size:16px;color:var(--brass);min-width:52px;text-align:right}
 .chk{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--muted);cursor:pointer}
 .chk input{accent-color:var(--brass)}
-.help code{font-family:var(--font-mono);color:var(--brass);background:#20262e;padding:1px 4px;border-radius:3px}
+.help code{font-family:var(--font-mono);color:var(--brass);background:#0d1116;padding:1px 4px;border-radius:3px}
 details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
 
 /* ---------- Chart-Spalte ---------- */
@@ -108,14 +99,14 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 .bar .lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .bar .num{position:absolute;top:1px;left:3px;font-size:clamp(7px,5.5cqw,11px);color:#9a9384;font-family:var(--font-mono);z-index:2}
 .bar .pos{position:absolute;top:1px;left:16%;font-size:clamp(9px,8cqw,16px);font-weight:700;font-family:var(--font-mono);color:#111;z-index:2}
-.bar .deg{position:absolute;top:1px;right:3px;font-size:clamp(11px,10cqw,21px);font-style:italic;font-weight:600;color:var(--degree);letter-spacing:.02em;text-align:right;max-width:72%;z-index:2}
-.bar .deg small{display:block;font-size:.72em;opacity:.85;font-style:normal}
+.bar .deg{position:absolute;top:1px;right:3px;font-size:clamp(8px,7cqw,15px);font-style:italic;color:var(--degree);letter-spacing:.02em;text-align:right;max-width:72%;z-index:2}
+.bar .deg small{display:block;font-size:.8em;opacity:.85;font-style:normal}
 .bar .reg{
   position:absolute;transform:translate(-50%,-50%);text-align:center;white-space:nowrap;
   line-height:1.1;z-index:2;
 }
 .bar .reg.on{background:rgba(201,162,39,.28);border-radius:3px;padding:1px 3px}
-.bar .reg .micro{font-size:clamp(9px,7.4cqw,15px);font-style:italic;color:var(--degree);font-family:var(--font-ui)}
+.bar .reg .micro{font-size:clamp(7px,5.8cqw,12px);font-style:italic;color:var(--degree);font-family:var(--font-ui)}
 .bar .reg .micro b{font-style:normal;font-weight:700;color:#111;font-family:var(--font-mono)}
 .chord{font-family:var(--font-disp);font-size:21px;font-weight:700;letter-spacing:.01em;display:block}
 .bar .reg .chord{font-size:clamp(14px,15cqw,26px);font-weight:700}
@@ -140,11 +131,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 .grip .sub2{font-size:9.5px;color:#7a7364;margin-bottom:2px;min-height:12px}
 .grip .alt{font-size:9.5px;color:#8a8474;margin-top:3px;font-family:var(--font-mono);cursor:pointer}
 .grip .alt:hover{color:var(--degree)}
-.grip .src{color:#9a9384;font-style:italic}
-.funkleg{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 14px;font-size:10px;color:#6b6558}
-.funkleg span{display:inline-flex;align-items:center;gap:5px}
-.funkleg i{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;
-  border-radius:50%;color:#fff;font-style:normal;font-size:8px;font-weight:700;font-family:var(--font-ui)}
 .grip svg{display:block;margin:0 auto}
 .warn{color:#a5540d;font-size:9.5px}
 
@@ -160,17 +146,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 .ana li{margin-bottom:5px}
 .ana .tag{font-family:var(--font-mono);font-size:10px;background:#efe9d9;border-radius:3px;padding:1px 5px;margin-right:6px;color:#5b5546}
 .ana .bars{font-family:var(--font-mono);font-size:10.5px;color:#7a7364}
-
-/* ---------- Kolophon ---------- */
-.colophon{
-  max-width:1080px;margin:14px auto 26px;padding:10px 4px 0;
-  display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline;
-  font-size:11px;color:var(--muted);border-top:1px solid var(--ink-3);
-}
-.colophon b{color:var(--text);font-weight:600}
-.colophon a{color:var(--brass);text-decoration:none}
-.colophon a:hover{text-decoration:underline}
-@media print{ .colophon{color:#666;border-color:#ccc} .colophon a{color:#444} }
 
 /* ---------- Legende ---------- */
 .legend{margin-top:22px;font-size:10.5px;color:#6b6558;line-height:1.8;border-top:1px solid #ddd7c8;padding-top:10px}
@@ -207,9 +182,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
       <label class="f">Tongeschlecht
         <select id="f-mode"><option value="maj">Dur</option><option value="min">Moll</option></select>
       </label>
-      <label class="f" style="flex:0 0 auto"><span style="visibility:hidden">.</span>
-        <button id="b-detect" style="padding:7px 9px" title="Tonart aus der Akkordfolge bestimmen">Tonart erkennen</button>
-      </label>
     </div>
     <div class="row">
       <label class="f">Rhythmus
@@ -223,13 +195,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
     <div class="row">
       <label class="f">Instrument (Griffe)
         <select id="f-inst"></select>
-      </label>
-      <label class="f">Griffe bevorzugt aus
-        <select id="f-vsrc">
-          <option value="alle">alle Quellen</option>
-          <option value="cosimini">DjangoSolos / Cosimini</option>
-          <option value="holovaty">Holovaty</option>
-        </select>
       </label>
       <label class="f" style="flex:0 0 auto"><span style="visibility:hidden">.</span>
         <label class="chk" style="padding-top:6px"><input type="checkbox" id="f-ana" checked> Analyse</label>
@@ -271,10 +236,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
           <option value="vibes">Klang: Vibraphon</option>
           <option value="pad">Klang: Streicher</option>
         </select>
-        <select id="f-groove" style="margin-top:6px">
-          <option value="gerade">Rhythmus: gerade</option>
-          <option value="pompe">Rhythmus: La Pompe</option>
-        </select>
       </div>
     </div>
   </fieldset>
@@ -287,7 +248,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
     <button id="b-export">JSON sichern</button>
     <button id="b-import">JSON laden</button>
     <button id="b-example">Beispiel</button>
-    <select id="f-chart" style="display:none"><option value="">Chart aus dem Repo laden …</option></select>
   </div>
 
   <details class="help">
@@ -307,12 +267,6 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
 <!-- ================= CHART ================= -->
 <main class="main">
   <div class="sheet" id="sheet"></div>
-  <footer class="colophon">
-    <span><b>Akkordgitter-Generator</b> v1.5</span>
-    <span>Alexander Zabelyshenskiy</span>
-    <a href="https://github.com/nomiknomik/akkordgitter-generator" target="_blank" rel="noopener">
-      github.com/nomiknomik/akkordgitter-generator</a>
-  </footer>
 </main>
 </div>
 
@@ -359,58 +313,33 @@ function pitchOf(name){
    n : Bezeichnung der Lage
    ============================================================ */
 const SHAPES = {
-  'maj':  [{s:1,f:[null,0,2,2,2,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,2,1,0,null],n:'E-Form',q:'cosimini'}],
-  '6':    [{s:1,f:[null,0,-1,-1,-2,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,-1,1,0,null],n:'E-Form',q:'cosimini'}],
-  '69':   [{s:1,f:[null,0,-1,-1,0,null],n:'A-Form',q:'cosimini'}],
-  'maj7': [{s:1,f:[null,0,2,1,2,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,1,1,0,null],n:'E-Form',q:'cosimini'}],
-  'maj9': [{s:1,f:[null,0,-1,1,0,null],n:'A-Form',q:'cosimini'}],
-  '7':    [{s:0,f:[0,null,0,1,0,null],n:'E-Form',q:'cosimini'},{s:1,f:[null,0,-1,0,-2,null],n:'A-Form',q:'cosimini'}],
-  '9':    [{s:1,f:[null,0,-1,0,0,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,0,-1,0,null],n:'E-Form',q:'cosimini'}],
-  '13':   [{s:0,f:[0,null,0,1,2,null],n:'E-Form',q:'cosimini'},{s:1,f:[null,0,-1,0,null,2],n:'A-Form',q:'cosimini'}],
-  '11':   [{s:0,f:[0,null,0,-1,-2,null],n:'E-Form',q:'cosimini'}],
-  '7b5':  [{s:1,f:[null,0,1,0,2,null],n:'A-Form',q:'cosimini'}],
-  '7b9':  [{s:1,f:[null,0,-1,0,-1,null],n:'A-Form',q:'cosimini'}],
-  '7#9':  [{s:1,f:[null,0,-1,0,1,null],n:'A-Form',q:'cosimini'}],
-  '7#5':  [{s:0,f:[0,null,0,1,1,0],n:'E-Form',q:'cosimini'},{s:1,f:[null,0,null,0,2,1],n:'A-Form',q:'cosimini'}],
-  'aug':  [{s:1,f:[null,0,-1,-2,-2,null],n:'A-Form',q:'cosimini'}],
-  'm':    [{s:1,f:[null,0,2,2,1,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,2,0,0,null],n:'E-Form',q:'cosimini'}],
-  'm6':   [{s:1,f:[null,0,-2,-1,-2,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,-1,0,0,null],n:'E-Form',q:'cosimini'}],
-  'm7':   [{s:1,f:[null,0,-2,0,-2,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,0,0,0,null],n:'E-Form',q:'cosimini'}],
-  'm9':   [{s:1,f:[null,0,-2,0,0,null],n:'A-Form',q:'cosimini'}],
-  'dim':  [{s:1,f:[null,0,1,-1,1,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,-1,0,-1,null],n:'E-Form',q:'cosimini'}],
-  'm7b5': [{s:1,f:[null,0,1,0,1,null],n:'A-Form',q:'cosimini'},{s:0,f:[0,null,0,0,-1,null],n:'E-Form',q:'cosimini'}],
+  'maj':  [{s:1,f:[null,0,2,2,2,null],n:'A-Form'},{s:0,f:[0,null,2,1,0,null],n:'E-Form'}],
+  '6':    [{s:1,f:[null,0,-1,-1,-2,null],n:'A-Form'},{s:0,f:[0,null,-1,1,0,null],n:'E-Form'}],
+  '69':   [{s:1,f:[null,0,-1,-1,0,null],n:'A-Form'}],
+  'maj7': [{s:1,f:[null,0,2,1,2,null],n:'A-Form'},{s:0,f:[0,null,1,1,0,null],n:'E-Form'}],
+  'maj9': [{s:1,f:[null,0,-1,1,0,null],n:'A-Form'}],
+  '7':    [{s:0,f:[0,null,0,1,0,null],n:'E-Form'},{s:1,f:[null,0,-1,0,-2,null],n:'A-Form'}],
+  '9':    [{s:1,f:[null,0,-1,0,0,null],n:'A-Form'},{s:0,f:[0,null,0,-1,0,null],n:'E-Form'}],
+  '13':   [{s:0,f:[0,null,0,1,2,null],n:'E-Form'},{s:1,f:[null,0,-1,0,null,2],n:'A-Form'}],
+  '11':   [{s:0,f:[0,null,0,-1,-2,null],n:'E-Form'}],
+  '7b5':  [{s:1,f:[null,0,1,0,2,null],n:'A-Form'}],
+  '7b9':  [{s:1,f:[null,0,-1,0,-1,null],n:'A-Form'}],
+  '7#9':  [{s:1,f:[null,0,-1,0,1,null],n:'A-Form'}],
+  '7#5':  [{s:0,f:[0,null,0,1,1,0],n:'E-Form'},{s:1,f:[null,0,null,0,2,1],n:'A-Form'}],
+  'aug':  [{s:1,f:[null,0,-1,-2,-2,null],n:'A-Form'}],
+  'm':    [{s:1,f:[null,0,2,2,1,null],n:'A-Form'},{s:0,f:[0,null,2,0,0,null],n:'E-Form'}],
+  'm6':   [{s:1,f:[null,0,-2,-1,-2,null],n:'A-Form'},{s:0,f:[0,null,-1,0,0,null],n:'E-Form'}],
+  'm7':   [{s:1,f:[null,0,-2,0,-2,null],n:'A-Form'},{s:0,f:[0,null,0,0,0,null],n:'E-Form'}],
+  'm9':   [{s:1,f:[null,0,-2,0,0,null],n:'A-Form'}],
+  'dim':  [{s:1,f:[null,0,1,-1,1,null],n:'A-Form'},{s:0,f:[0,null,-1,0,-1,null],n:'E-Form'}],
+  'm7b5': [{s:1,f:[null,0,1,0,1,null],n:'A-Form'},{s:0,f:[0,null,0,0,-1,null],n:'E-Form'}],
   /* --- Umkehrungen / Slash-Akkorde: Anker = Bassnote --- */
-  'maj/4':[{s:1,a:4,f:[null,0,3,2,1,null],n:'Bass=Terz',q:'cosimini'}],
-  'maj/7':[{s:0,a:7,f:[0,0,2,2,2,null],n:'Bass=Quinte',q:'cosimini'}],
-  '6/7':  [{s:0,a:7,f:[0,0,-1,-1,null,null],n:'Bass=Quinte',q:'cosimini'}],
-  '7/7':  [{s:0,a:7,f:[0,null,-1,0,null,null],n:'Bass=Quinte (rootless)',q:'cosimini'}],
-  '7/4':  [{s:1,a:4,f:[null,0,1,-2,1,null],n:'Bass=Terz',q:'cosimini'},{s:0,a:4,f:[0,null,-2,0,-1,null],n:'Bass=Terz (E)',q:'cosimini'}],
-  'm7/3': [{s:0,a:3,f:[0,null,-1,1,0,null],n:'Bass=kl. Terz',q:'cosimini'}]
-};
-
-/* ------------------------------------------------------------
-   Nachtrag Quelle 'holovaty' (v1.5)
-   Aus dem Chord-Melody-Arrangement von Adrian Holovaty zu
-   "All Of Me" ausgelesen (Vektorebene des PDF, jedes Voicing
-   gegen die Akkordtöne gegengerechnet). 67 Vorkommen -> 11
-   verschiedene Griffe, davon 9 neu gegenüber der Bibliothek.
-   ------------------------------------------------------------ */
-const SHAPES_ADD = {
-  '69':   [{s:0,a:7,f:[0,0,-1,-1,0,0],n:'Bass=Quinte, 6-saitig',q:'holovaty'}],
-  '7':    [{s:0,a:0,f:[0,-1,0,1,null,null],n:'E-Form, 4-saitig',q:'holovaty'}],
-  '9':    [{s:1,a:0,f:[null,0,-1,0,0,0],n:'A-Form, 5-saitig',q:'holovaty'}],
-  'dim':  [{s:0,a:0,f:[0,null,-1,0,null,null],n:'E-Form, 3-saitig',q:'holovaty'}],
-  'm6':   [{s:1,a:9,f:[null,0,1,0,1,null],n:'Anker=Sexte',q:'holovaty'}],
-  'm7':   [{s:0,a:0,f:[0,null,0,0,0,0],n:'E-Form, 5-saitig',q:'holovaty'}],
-  'm/3':  [{s:0,a:3,f:[0,null,-1,1,null,null],n:'Bass=kl. Terz',q:'holovaty'}],
-  'maj/4':[{s:0,a:4,f:[0,null,-2,0,null,null],n:'Bass=Terz (E)',q:'holovaty'}]
-};
-Object.entries(SHAPES_ADD).forEach(([k,v])=>{ (SHAPES[k]=SHAPES[k]||[]).push(...v); });
-
-/* Quellen-Register: erscheint in der Grifftabelle und im Quellenfilter */
-const QUELLEN = {
-  cosimini: {n:'DjangoSolos / Colin Cosimini', j:'2009'},
-  holovaty: {n:'Adrian Holovaty, „All Of Me“',  j:'Arrangement'}
+  'maj/4':[{s:1,a:4,f:[null,0,3,2,1,null],n:'Bass=Terz'}],
+  'maj/7':[{s:0,a:7,f:[0,0,2,2,2,null],n:'Bass=Quinte'}],
+  '6/7':  [{s:0,a:7,f:[0,0,-1,-1,null,null],n:'Bass=Quinte'}],
+  '7/7':  [{s:0,a:7,f:[0,null,-1,0,null,null],n:'Bass=Quinte (rootless)'}],
+  '7/4':  [{s:1,a:4,f:[null,0,1,-2,1,null],n:'Bass=Terz'},{s:0,a:4,f:[0,null,-2,0,-1,null],n:'Bass=Terz (E)'}],
+  'm7/3': [{s:0,a:3,f:[0,null,-1,1,0,null],n:'Bass=kl. Terz'}]
 };
 
 /* Qualitäts-Normalisierung: Eingabe -> Bibliotheks-Schlüssel */
@@ -825,14 +754,7 @@ function allVoicings(ch){
       out.push({pos:p, frets, shape:s});
     }
   }
-  const pref = (typeof SRCPREF!=='undefined' && SRCPREF) ? SRCPREF : 'alle';
-  out.sort((a,b)=>{
-    if(pref!=='alle'){
-      const pa=(a.shape.q===pref)?0:1, pb=(b.shape.q===pref)?0:1;
-      if(pa!==pb) return pa-pb;
-    }
-    return a.pos-b.pos;
-  });
+  out.sort((a,b)=>a.pos-b.pos);
   return out.length?out:genVoicings(ch);
 }
 
@@ -850,79 +772,11 @@ function bestVoicing(ch, variant){
   return vs[((variant||0)%vs.length+vs.length)%vs.length];
 }
 
-/* ---- Tonfunktion eines Griffbild-Punktes ---- */
-const FUNK = [
-  {l:'R',  v:'--fn-root'},  {l:'♭9', v:'--fn-alt'},   {l:'9',  v:'--fn-none'},
-  {l:'♭3', v:'--fn-terz'},  {l:'3',  v:'--fn-terz'},  {l:'11', v:'--fn-alt'},
-  {l:'♭5', v:'--fn-alt'},   {l:'5',  v:'--fn-quint'}, {l:'♯5', v:'--fn-alt'},
-  {l:'6',  v:'--fn-sext'},  {l:'♭7', v:'--fn-sept'},  {l:'7',  v:'--fn-sept'}
-];
-function funktion(iv, quality){
-  const f = FUNK[((iv%12)+12)%12];
-  if(iv===9 && (quality==='dim')) return {l:'°7', v:f.v};
-  if(iv===9 && (quality==='m7b5')) return {l:'6', v:f.v};
-  return f;
-}
-
-/* Bevorzugte Griffquelle (steuert die Sortierung in allVoicings) */
-let SRCPREF = 'alle';
-
-/* ------------------------------------------------------------
-   Automatische Tonarterkennung
-   Bewertet alle 24 Tonarten danach, wie gut die vorkommenden
-   Akkorde hineinpassen. Leiterfremdes kostet Punkte, Tonika und
-   Dominante bringen Bonus, ebenso der Schlussakkord.
-   ------------------------------------------------------------ */
-function detectKey(){
-  const chords=[];
-  (state.bars||[]).forEach(bar=>(bar.chords||[]).forEach(c=>{
-    if(c && c.rootPitch!==undefined) chords.push(c);
-  }));
-  if(!chords.length) return null;
-  const MAJ=[0,2,4,5,7,9,11], MIN=[0,2,3,5,7,8,10,11];
-  let best=null;
-  for(let k=0;k<12;k++) for(const mode of ['maj','min']){
-    const scale = mode==='maj'?MAJ:MIN;
-    let sc=0;
-    chords.forEach((c,i)=>{
-      const deg=((c.rootPitch-k)%12+12)%12;
-      const fam=QFAMILY[c.quality]||'maj';
-      sc += scale.includes(deg) ? 2 : -2.5;
-      // charakteristische Funktionen
-      if(mode==='maj'){
-        if(deg===0 && (fam==='maj')) sc+=3;
-        if(deg===7 && fam==='dom')   sc+=3;
-        if(deg===2 && fam==='min')   sc+=1.5;
-        if(deg===9 && fam==='min')   sc+=1;
-      }else{
-        if(deg===0 && (fam==='min'))  sc+=3;
-        if(deg===7 && fam==='dom')    sc+=3;
-        if(deg===2 && fam==='hdim')   sc+=1.5;
-        if(deg===8 && fam==='maj')    sc+=1;
-      }
-      if(i===chords.length-1 && deg===0) sc+=4;      // Schlussakkord
-      if(i===0 && deg===0) sc+=2;                    // Anfangsakkord
-    });
-    sc/=chords.length;
-    if(!best||sc>best.score) best={pitch:k,mode,score:sc};
-  }
-  return best;
-}
-
-/* ---- Farblegende der Tonfunktionen ---- */
-function funkLegendeHTML(){
-  const items=[['R','--fn-root','Grundton'],['3','--fn-terz','Terz'],
-    ['5','--fn-quint','Quinte'],['♭7','--fn-sept','Septime'],
-    ['6','--fn-sext','Sexte'],['9','--fn-none','None'],['♭5','--fn-alt','alteriert']];
-  return '<div class="funkleg">'+items.map(([l,v,t])=>
-    '<span><i style="background:var('+v+')">'+l+'</i>'+t+'</span>').join('')+'</div>';
-}
-
 /* ---- SVG-Griffbild ---- */
 function diagramSVG(v, ch){
   if(!v) return '<div class="warn">kein Griff gefunden</div>';
   const open=OPEN(), N=open.length;
-  const dx=18, dy=20, L=20, T=22, W=L+dx*(N-1)+18, H=T+dy*4+16;
+  const dx=15, dy=17, L=18, T=20, W=L+dx*(N-1)+16, H=T+dy*4+16;
   const played=v.frets.filter(x=>x!==null);
   const nz=played.filter(x=>x>0);
   const start=nz.length?Math.max(1,Math.min(...nz)):1;
@@ -932,20 +786,17 @@ function diagramSVG(v, ch){
   for(let si=0;si<N;si++) s+='<line x1="'+gx(si)+'" y1="'+gy(0)+'" x2="'+gx(si)+'" y2="'+gy(4)+'" stroke="#111" stroke-width=".8"/>';
   for(let fr=0;fr<=4;fr++) s+='<line x1="'+gx(0)+'" y1="'+gy(fr)+'" x2="'+gx(N-1)+'" y2="'+gy(fr)+'" stroke="#111" stroke-width="'+((fr===0&&(openChord||start===1))?1.9:.8)+'"/>';
   if(!(openChord||start===1))
-    s+='<text x="'+(gx(0)-6)+'" y="'+(gy(0)+10)+'" font-size="9.5" text-anchor="end" font-family="monospace">'+start+'</text>';
+    s+='<text x="'+(gx(0)-5)+'" y="'+(gy(0)+9)+'" font-size="9" text-anchor="end" font-family="monospace">'+start+'</text>';
   v.frets.forEach((f,si)=>{
     const x=gx(si);
-    if(f===null){ s+='<text x="'+x+'" y="'+(gy(0)-3)+'" font-size="8.5" text-anchor="middle" font-family="monospace">x</text>'; return; }
-    const iv=((open[si]+f)%12 - ch.rootPitch%12 +12)%12;
-    const fn=funktion(iv, ch.quality);
-    const col='var('+fn.v+')';
-    if(f===0){ s+='<circle cx="'+x+'" cy="'+(gy(0)-6)+'" r="3.4" fill="none" stroke="'+col+'" stroke-width="1.5"/>'; return; }
+    if(f===null){ s+='<text x="'+x+'" y="'+(gy(0)-3)+'" font-size="8" text-anchor="middle" font-family="monospace">x</text>'; return; }
+    if(f===0){ s+='<circle cx="'+x+'" cy="'+(gy(0)-5)+'" r="2.6" fill="none" stroke="#111" stroke-width="1"/>'; return; }
     const rel=f-start;
     if(rel<0||rel>3){ s+='<text x="'+x+'" y="'+(gy(0)-3)+'" font-size="7" text-anchor="middle" fill="#a5540d">'+f+'</text>'; return; }
     const cy=gy(rel)+dy/2;
-    s+='<circle cx="'+x+'" cy="'+cy+'" r="7" fill="'+col+'"/>';
-    if(iv===0) s+='<circle cx="'+x+'" cy="'+cy+'" r="7" fill="none" stroke="#111" stroke-width="1.2"/>';
-    s+='<text x="'+x+'" y="'+(cy+2.5)+'" font-size="'+(fn.l.length>1?6:7.5)+'" text-anchor="middle" fill="#fff" font-family="var(--font-ui)" font-weight="700">'+fn.l+'</text>';
+    const isRoot=((open[si]+f)%12)===ch.rootPitch;
+    s+='<circle cx="'+x+'" cy="'+cy+'" r="4.4" fill="#111"/>';
+    if(isRoot) s+='<circle cx="'+x+'" cy="'+cy+'" r="1.7" fill="#faf8f3"/>';
   });
   s+='</svg>';
   return s;
@@ -997,8 +848,7 @@ function render(){
 
   /* Griffbilder */
   html+='<div class="grips"><h3>Griffbilder</h3><div class="sub">'
-     +'Zahl links = Lage (Bund). Die Punkte sind nach Tonfunktion gefärbt und beschriftet. '
-     +'Klick auf „andere Lage“ wechselt das Voicing.</div>'+funkLegendeHTML()+'<div class="gripgrid">';
+     +'Zahl links = Lage (Bund). Weißer Punkt = Grundton. Klick auf „andere Lage“ wechselt das Voicing.</div><div class="gripgrid">';
   used.forEach((entry,nm)=>{
     const ch=entry.ch;
     const varIdx=state.variants[nm]||0;
@@ -1010,8 +860,7 @@ function render(){
         +'<div class="sub2">'+deg.main+(v?' · Lage '+v.pos:'')
         +(alsoArr.length?'<br>= '+esc(alsoArr.join(', ')):'')+'</div>'
         +(v?diagramSVG(v,ch):'<div class="warn">kein Griff hinterlegt</div>')
-        +(v&&v.shape?'<div style="font-size:9px;color:#7a7364">'+v.shape.n
-            +(v.shape.q&&QUELLEN[v.shape.q]?'<br><span class="src">'+esc(QUELLEN[v.shape.q].n)+'</span>':'')+'</div>':'')
+        +(v&&v.shape?'<div style="font-size:9px;color:#7a7364">'+v.shape.n+'</div>':'')
         +(all.length>1?'<div class="alt" data-alt="'+esc(nm)+'">↻ andere Lage ('+all.length+')</div>':'')
         +(v&&v.warn?'<div class="warn">⚠️ Lage geprüft?</div>':'')
         +'</div>';
@@ -1038,9 +887,7 @@ function render(){
       +'zweiten Takthälfte; Zusatzlinien zur Mitte unterteilen die jeweilige Hälfte. '
       +'Spielrichtung: links → oben → unten → rechts. Kleine Ziffer im Feld = Lage, kursiv = Stufe. '
       +'Stufen bezogen auf '+key+(mode==='min'?'-Moll':'-Dur')
-      +'; V7/x = Zwischendominante. '
-      +'<b>Griffbilder:</b> Punktfarbe und Beschriftung geben die Tonfunktion an; '
-      +'der Grundton ist zusätzlich schwarz umrandet.</div>';
+      +'; V7/x = Zwischendominante.</div>';
 
   $('sheet').innerHTML=html;
   bindSheet();
@@ -1235,13 +1082,13 @@ const SOUNDS={
   vibes: {osc:'sine',    cut:4000,q:.3,atk:.003,rel:2.4,gain:.15,spread:.009,detune:5},
   pad:   {osc:'sawtooth',cut:1200,q:.6,atk:.13, rel:1.0,gain:.06,spread:.002,detune:7,sustain:true}
 };
-function voice(f,st,dur,S,mul,dry){
+function voice(f,st,dur,S,mul){
   const ctx=audio.ctx;
   const osc=ctx.createOscillator(), g=ctx.createGain(), lp=ctx.createBiquadFilter();
   osc.type=S.osc; osc.frequency.value=f;
   lp.type='lowpass'; lp.Q.value=S.q;
   const peak=S.gain*(mul||1);
-  const len=dry?Math.max(.05,dur):(S.sustain?Math.max(.3,dur*.98):Math.max(.25,dur*S.rel));
+  const len=S.sustain?Math.max(.3,dur*.98):Math.max(.25,dur*S.rel);
   g.gain.setValueAtTime(.0001,st);
   g.gain.linearRampToValueAtTime(peak,st+S.atk);
   if(S.sustain){
@@ -1256,35 +1103,14 @@ function voice(f,st,dur,S,mul,dry){
   osc.connect(lp); lp.connect(g); g.connect(audio.out);
   osc.start(st); osc.stop(st+len+.05);
 }
-function strum(midis,t,dur,opt){
+function strum(midis,t,dur){
   if(!midis.length) return;
   const S=SOUNDS[$('f-sound').value]||SOUNDS.steel;
-  const o=opt||{}, gain=o.gain===undefined?1:o.gain;
-  const spread=(o.spread===undefined?S.spread:o.spread);
-  const order = o.up ? [...midis].reverse() : midis;
-  order.forEach((m,i)=>{
-    const st=t+i*Math.abs(spread), f=freqOf(m);
-    voice(f,st,dur,S,gain,o.dry);
-    if(S.detune) voice(f*Math.pow(2,S.detune/1200),st,dur,S,.55*gain,o.dry);
+  midis.forEach((m,i)=>{
+    const st=t+i*S.spread, f=freqOf(m);
+    voice(f,st,dur,S);
+    if(S.detune) voice(f*Math.pow(2,S.detune/1200),st,dur,S,.55);
   });
-}
-
-/* ------------------------------------------------------------
-   La Pompe — der Gypsy-Rhythmus
-   Auf 1 und 3 ein kurzer, gedämpfter Abschlag mit leiser
-   Vorbereitung zum Aufschlag; auf 2 und 4 der betonte, trockene
-   Schlag. Entscheidend ist nicht die Lautstärke, sondern dass
-   alles sofort wieder abgedämpft wird.
-   ------------------------------------------------------------ */
-function pompeBeat(midis,t,beat,B){
-  const bd=beatDur(), dry=Math.min(0.10,bd*0.22);
-  const onBeat=((beat%B)+B)%B;
-  if(onBeat%2===0){                       // 1 und 3: Grundschlag + Auftakt
-    strum(midis,t,dry,{gain:.5,spread:.011,dry:1});
-    strum(midis,t+bd*0.62,dry*0.55,{gain:.22,spread:.007,up:true,dry:1});
-  }else{                                  // 2 und 4: Betonung
-    strum(midis,t,dry*1.5,{gain:1.0,spread:.007,dry:1});
-  }
 }
 function click(t,accent){
   const ctx=audio.ctx, o=ctx.createOscillator(), g=ctx.createGain();
@@ -1301,11 +1127,7 @@ function scheduleBeat(b,t){
   if($('f-metro').checked) click(t, ((b%B)+B)%B===0);
   if(b<0) return;                                   // Einzähler
   const slot=audio.map[b];
-  if(slot && $('f-chords').checked){
-    const midis=midisOf(slot.ch);
-    if(($('f-groove')?$('f-groove').value:'gerade')==='pompe') pompeBeat(midis,t,b,B);
-    else strum(midis,t,beatDur());
-  }
+  if(slot && $('f-chords').checked) strum(midisOf(slot.ch), t, beatDur());
   audio.queue.push({beat:b,time:t});
 }
 
@@ -1427,15 +1249,12 @@ function loadData(d){
   INST_ID=d.inst||'gitarre';
   if($('f-inst').options.length) $('f-inst').value=INST_ID;
   if(d.sound) $('f-sound').value=d.sound;
-  SRCPREF=d.vsrc||'alle'; if($('f-vsrc')) $('f-vsrc').value=SRCPREF;
-  if(d.groove && $('f-groove')) $('f-groove').value=d.groove;
   $('f-src').value=d.src||''; state.variants=d.variants||{}; render();
 }
 function currentData(){
   return {title:$('f-title').value,key:$('f-key').value,mode:$('f-mode').value,
     meter:$('f-meter').value,form:$('f-form').value,bpl:+$('f-bpl').value,
     bpm:+$('f-bpm').value,inst:INST_ID,sound:$('f-sound').value,
-    vsrc:SRCPREF, groove:($('f-groove')?$('f-groove').value:'gerade'),
     src:$('f-src').value,variants:state.variants};
 }
 
@@ -1447,21 +1266,8 @@ function currentData(){
   loadData(EXAMPLE);
   pushHist();
   $('f-inst').addEventListener('change',()=>{INST_ID=$('f-inst').value;state.variants={};render();pushHist();});
-  $('f-vsrc').addEventListener('change',()=>{
-    SRCPREF=$('f-vsrc').value; state.variants={}; render(); pushHistDebounced();
-  });
-  $('b-detect').onclick=()=>{
-    const d=detectKey();
-    if(!d){ $('status').textContent='Keine Akkorde zum Auswerten.'; return; }
-    const KEYNAMES=['C','Db','D','Eb','E','F','F#','G','Ab','A','Bb','B'];
-    $('f-key').value=KEYNAMES[d.pitch]; $('f-mode').value=d.mode;
-    render(); pushHist();
-    $('status').textContent='Erkannt: '+KEYNAMES[d.pitch]+(d.mode==='min'?'-Moll':'-Dur')
-      +' (Kennwert '+d.score.toFixed(1)+'). Bei Bedarf von Hand korrigieren.';
-  };
   $('f-ana').addEventListener('change',render);
   $('f-sound').addEventListener('change',()=>pushHistDebounced());
-  $('f-groove').addEventListener('change',()=>pushHistDebounced());
   ['f-title','f-key','f-mode','f-meter','f-form','f-bpl','f-src'].forEach(id=>{
     $(id).addEventListener('input',()=>{render();pushHistDebounced();});
     $(id).addEventListener('change',()=>{render();pushHistDebounced();});
@@ -1492,27 +1298,6 @@ function currentData(){
     a.click(); URL.revokeObjectURL(a.href);
     $('status').textContent='JSON gespeichert.';
   };
-  /* Charts aus charts/index.json anbieten (nur über http/https, nicht bei file://) */
-  if(typeof fetch==='function' && location.protocol.startsWith('http')){
-    fetch('charts/index.json').then(r=>r.ok?r.json():null).then(ix=>{
-      if(!ix||!ix.charts) return;
-      const sel=$('f-chart');
-      ix.charts.forEach(c=>{
-        const o=document.createElement('option'); o.value=c.datei; o.textContent=c.titel;
-        sel.appendChild(o);
-      });
-      sel.style.display='';
-      sel.onchange=()=>{
-        if(!sel.value) return;
-        fetch('charts/'+sel.value).then(r=>r.json()).then(d=>{
-          loadData(d); pushHist();
-          $('status').textContent='Geladen: '+sel.options[sel.selectedIndex].textContent
-            +(d.quelle?' · Quelle: '+d.quelle:'');
-        }).catch(e=>{ $('status').textContent='Fehler: '+e.message; });
-      };
-    }).catch(()=>{});
-  }
-
   $('b-import').onclick=()=>$('f-file').click();
   $('f-file').onchange=e=>{
     const f=e.target.files[0]; if(!f) return;
