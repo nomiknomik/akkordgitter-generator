@@ -1,5 +1,27 @@
 # Changelog
 
+## v1.9 — 2026-07-27
+- **Vier Bezugspunkte statt zwei** (vorbelegt mit Takt 3, 9, 13, 17), jeder mit
+  eigener Feinjustierung in 20-ms-Schritten. Von Alexander Zabelyshenskiy
+  angeregt.
+- **Ausgleichsrechnung statt Zweipunktbestimmung.** Durch alle gesetzten Punkte
+  wird eine Ausgleichsgerade gelegt (kleinste Quadrate, `t = a + b·n`): `b` ist
+  die Taktdauer, `a + b` die Zeit von Takt 1. Damit zählt jeder Klick mit,
+  statt dass zwei Punkte allein das Ergebnis bestimmen — ein einzelner
+  Fehlklick verzerrt entsprechend weniger.
+- **Restabweichung je Punkt** wird ausgewiesen (in ms, grün bis 25 ms, orange
+  ab 60 ms). Ein Ausreißer ist damit auffindbar, ohne alles neu zu setzen; die
+  Sammelmeldung nennt zusätzlich die größte Abweichung und was sie bedeutet.
+- **Zwei getrennte Korrekturen**: je Punkt gegen einen einzelnen schiefen Klick,
+  für alle zugleich gegen die eigene Reaktionszeit (Klicks liegen systematisch
+  etwas zu spät). Dazu „leeren“, um von vorn zu beginnen.
+- Ändert man die Taktnummer eines bereits gesetzten Punktes, wird sofort neu
+  gerechnet.
+- **Keine automatische Beat-Erkennung.** Der YouTube-Player läuft in einem
+  iframe fremder Herkunft; Web Audio kommt an dessen Tondaten nicht heran, eine
+  Analyse ist im Browser also ausgeschlossen. Die Ausgleichsrechnung ist der
+  bestmögliche Ersatz: sie holt aus den vorhandenen Klicks das Maximum heraus.
+
 ## v1.8 — 2026-07-27
 - **Beide Bezugspunkte der Video-Synchronisation sind frei wählbar.** Bisher
   musste der erste Punkt auf Takt 1 liegen — der ist in einer Aufnahme oft am

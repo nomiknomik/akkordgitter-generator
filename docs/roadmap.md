@@ -54,9 +54,16 @@ Kandidatin schärfer geworden:
   Walzer, „à la Django“ mit Bassläufen) wären hörbar besser.
 - **Melodiestimme**: die Arrangements enthalten TAB, die App nicht. Bewusst
   ausgeklammert — hier geht es um Akkordgitter.
-- **Video-Synchronisation bei schwankendem Tempo**: die Zuordnung ist linear.
-  Für Aufnahmen mit ziehendem Tempo wären mehrere Stützstellen mit abschnitts-
-  weiser Interpolation nötig.
+- **Video-Synchronisation bei schwankendem Tempo**: die Zuordnung ist eine
+  Gerade durch alle Bezugspunkte. Für Aufnahmen mit ziehendem Tempo wäre
+  abschnittsweise Interpolation zwischen den Punkten nötig statt einer
+  gemeinsamen Geraden.
+- **Automatische Beat-Erkennung** ist für YouTube ausgeschlossen: der Player
+  läuft in einem iframe fremder Herkunft, Web Audio erhält keinen Zugriff auf
+  dessen Tondaten. Denkbar wäre sie nur für lokal geladene Audiodateien
+  (`createMediaElementSource` + Onset-Erkennung) oder über eine
+  Tab-Tonaufnahme via `getDisplayMedia({audio:true})` — beides ein anderer
+  Eingabeweg, kein Ersatz für die jetzige Kalibrierung.
 - **Video über mehrere Chorusse**: der Chart umfasst einen Durchgang, die
   Aufnahme mehrere. Derzeit kalibriert man auf den Durchgang, den man braucht;
   ein Umlauf über die Formlänge wäre die naheliegende Erweiterung.
