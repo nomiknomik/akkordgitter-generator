@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.7 — 2026-07-27
+- **Taktversatz in der Video-Synchronisation behoben.** `data-bar` ist 0-basiert,
+  die Taktnummern im Gitter sind 1-basiert — die Markierung lag deshalb einen
+  Takt daneben, und ein Klick sprang um einen Takt zu früh. Beides betraf nur
+  die in v1.6 neu hinzugekommene Synchronisation, nicht die eigene Wiedergabe
+  (die rechnet direkt mit `idx`). Von Alexander Zabelyshenskiy bemerkt.
+- **Kalibrierung als zwei nummerierte Schritte** dargestellt, mit erklärendem
+  Vorspann und Rückmeldung nach jedem Schritt. Hinweis ergänzt, dass ein
+  größerer Abstand zwischen den beiden Stützstellen das Tempo genauer macht.
+- **Vorgabe-Chart ist jetzt die Holovaty-Fassung** (mit Video-ID, La Pompe und
+  Quellpräferenz). Sie steht eingebettet in `index.html`, damit die App auch
+  per Doppelklick ohne Server startet; `tools/chart_einbetten.py` erzeugt den
+  Block aus `charts/*.json`, damit beide Fassungen nicht auseinanderlaufen.
+
 ## v1.6 — 2026-07-27
 - **Video-Synchronisation.** Ein YouTube-Video lässt sich einbetten und das
   Gitter mitlaufen lassen: über zwei Stützstellen (Beginn von Takt 1 und Beginn

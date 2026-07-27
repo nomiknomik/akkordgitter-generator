@@ -299,21 +299,12 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
       <button id="b-vload">Video laden</button>
       <label class="chk"><input type="checkbox" id="f-follow"> Video folgen</label>
     </div>
-    <div class="help" style="margin:2px 0 8px">
-      Die App weiß nicht, wo im Video das Stück beginnt. Das sagt man ihr mit
-      zwei Klicks: einmal auf der Eins von Takt 1, einmal auf der Eins eines
-      späteren Taktes. Daraus ergibt sich das Tempo.
-    </div>
     <div class="row">
-      <span style="flex:0 0 14px;font-size:11px;color:var(--muted);padding-top:8px">1.</span>
-      <button id="b-cal1" style="flex:1" title="Video auf die Eins von Takt 1 stellen, dann hier klicken">hier beginnt Takt 1</button>
-    </div>
-    <div class="row">
-      <span style="flex:0 0 14px;font-size:11px;color:var(--muted);padding-top:8px">2.</span>
-      <button id="b-caln" style="flex:1" title="Video auf die Eins des rechts eingestellten Taktes stellen, dann hier klicken">hier beginnt Takt</button>
-      <label class="f" style="flex:0 0 64px"><span style="visibility:hidden">.</span>
+      <button id="b-cal1" title="Video an den Beginn von Takt 1 stellen, dann hier klicken">Takt 1 setzen</button>
+      <label class="f" style="flex:0 0 78px">Takt
         <input type="number" id="f-caln" value="9" min="2" step="1">
       </label>
+      <button id="b-caln" title="Video an den Beginn dieses Taktes stellen, dann hier klicken">setzen</button>
     </div>
     <div class="help" id="synco">Noch nicht kalibriert.</div>
   </fieldset>
@@ -351,7 +342,7 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
   </div>
   <div class="sheet" id="sheet"></div>
   <footer class="colophon">
-    <span><b>Akkordgitter-Generator</b> v1.7</span>
+    <span><b>Akkordgitter-Generator</b> v1.6</span>
     <span>Alexander Zabelyshenskiy</span>
     <a href="https://github.com/nomiknomik/akkordgitter-generator" target="_blank" rel="noopener">
       github.com/nomiknomik/akkordgitter-generator</a>
@@ -1202,7 +1193,7 @@ function bindSheet(){
     el.addEventListener('click',e=>{
       if(el.querySelector('input')) return;
       if($('f-follow').checked && vid.player && vid.ready && vid.spb){
-        vid.player.seekTo(Math.max(0,barTime(+el.dataset.bar+1)),true);
+        vid.player.seekTo(Math.max(0,barTime(+el.dataset.bar)),true);
         return;                                   // im Folgemodus wird nicht bearbeitet
       }
       const raw=el.getAttribute('data-raw');
@@ -1456,7 +1447,7 @@ function ytLoad(){
       videoId:id, host:'https://www.youtube-nocookie.com',
       playerVars:{rel:0, modestbranding:1, playsinline:1},
       events:{
-        onReady:()=>{ vid.ready=true; ytHint('Video bereit. Jetzt Schritt 1: an die Eins von Takt 1 spulen und links „hier beginnt Takt 1“ drücken.'); },
+        onReady:()=>{ vid.ready=true; ytHint('Video bereit. Zum Kalibrieren an den Beginn von Takt 1 spulen und „Takt 1 setzen“ drücken.'); },
         onError:e=>ytHint('Das Video lässt sich nicht einbetten (Fehler '+e.data+'). Möglicherweise hat der Rechteinhaber die Einbettung gesperrt.')
       }
     });
@@ -1473,17 +1464,11 @@ function ytLoad(){
 
 function syncInfo(){
   if(vid.t0===null){ $('synco').textContent='Noch nicht kalibriert.'; return; }
-  if(vid.spb===null){
-    $('synco').innerHTML='Takt 1 beginnt bei <b>'+vid.t0.toFixed(2)+' s</b>. '
-      +'Jetzt Schritt 2: an die Eins eines späteren Taktes spulen und dessen Nummer eintragen.';
-    return;
-  }
+  if(vid.spb===null){ $('synco').textContent='Takt 1 bei '+vid.t0.toFixed(2)+' s. Jetzt einen zweiten Takt setzen.'; return; }
   const B=state.meterBeats||4;
-  $('synco').innerHTML='Fertig: Takt 1 bei <b>'+vid.t0.toFixed(2)+' s</b>, '
+  $('synco').innerHTML='Takt 1 bei <b>'+vid.t0.toFixed(2)+' s</b>, '
     +vid.spb.toFixed(3)+' s je Takt &rarr; <b>'+Math.round(60*B/vid.spb)+' bpm</b>.'
-    +'<br>„Video folgen“ einschalten — ein Klick auf einen Takt springt dann dorthin.'
-    +'<br>Stimmt es nicht, Schritt 2 mit einem weiter entfernten Takt wiederholen: '
-    +'je größer der Abstand, desto genauer das Tempo.';
+    +'<br>Bei aktivem „Video folgen“ springt ein Klick auf einen Takt an die passende Stelle.';
 }
 function barTime(n){ return vid.t0 + (n-1)*vid.spb; }
 
@@ -1499,14 +1484,10 @@ function calibrate(n){
   syncInfo(); pushHistDebounced();
 }
 
-/* Achtung: data-bar ist 0-basiert, die Taktnummern im Gitter sind 1-basiert. */
 function markBar(n){
   document.querySelectorAll('.bar.synced').forEach(e=>e.classList.remove('synced'));
-  const el=document.querySelector('.bar[data-bar="'+(n-1)+'"]');
-  if(el){
-    el.classList.add('synced');
-    if(el.scrollIntoView) el.scrollIntoView({block:'nearest'});
-  }
+  const el=document.querySelector('.bar[data-bar="'+n+'"]');
+  if(el){ el.classList.add('synced'); el.scrollIntoView({block:'nearest'}); }
 }
 function ytFollow(){
   if(!$('f-follow').checked){ vid.raf=null; return; }
@@ -1558,33 +1539,22 @@ function updateHist(){
 /* ============================================================
    9. BEISPIEL + I/O
    ============================================================ */
-/* >>> VORGABE-CHART, erzeugt von tools/chart_einbetten.py <<< */
-const EXAMPLE = {
-  "title": "ALL OF ME",
-  "quelle": "Adrian Holovaty, Chord-Melody-Arrangement",
-  "hinweis": "Akkordfolge und Griffe aus der Vektorebene des PDF gelesen; jedes Voicing gegen die Akkordtöne gegengerechnet. Die Melodiestimme des Arrangements ist nicht enthalten.",
-  "key": "C",
-  "mode": "maj",
-  "meter": "4/4",
-  "form": "ABAC + Tag",
-  "bpl": 8,
-  "bpm": 200,
-  "inst": "gitarre",
-  "sound": "steel",
-  "vsrc": "holovaty",
-  "groove": "pompe",
-  "variants": {},
-  "src": "[A]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[B]\n E7@7 | % | Am7/C@8 B°@7 | Am7@5\n D7@5 | % | G7@3 F/A@5 | Bb°@6 G/B@7\n[A2]\n C6@8 | % | E7@7 | %\n A7@5 | % | Dm6@2 Em6@4 | Dm6@2\n[C]\n F/A@5 | Fm/Ab@4 | C6@8 B6@7 Bb6@6 | A7@5\n D7@5 | G7@3 | C6@8 C#°@9 | Dm7@10 G9@10\n[Tag]\n E7@7 | A7@5 | D7@5 | G7@3\n C6/9@3 | %",
-  "abweichungen": [
-    "Takt 16 (und in der Wiederholung Takt 48): Die Vorlage druckt Ab° im 4. Bund. Hier steht Bb° im 6. Bund — gleicher Griff, zwei Bünde höher. Grund: die Bassnote auf der tiefen E-Saite läuft F/A (5) – ? – G/B (7) – C6 (8); nur Bb (6) ergibt den chromatischen Anstieg A–B♭–H–C. Beide sind für sich gültige dim7-Griffe, die Vorlage ist also in sich stimmig, im Zusammenhang aber unplausibel. Korrektur von Alexander Zabelyshenskiy. Die Griffbibliothek bleibt unverändert — es ist dieselbe Form."
-  ],
-  "video": {
-    "id": "_cZfMLVdvxI",
-    "t0": null,
-    "spb": null
-  }
+const EXAMPLE={
+  title:'ALL OF ME', key:'C', mode:'maj', meter:'4/4', form:'AABA', bpl:8, bpm:180, inst:'gitarre',
+  src:
+`[A]
+ C6/G | % | E7/B | %
+ A7 | % | B0 | %
+[A2]
+ E7 | F° | CM6 | Am
+ D7 | % | D-9 | G7+
+[B]
+ C6/G | % | E7 | %
+ E° C#° | B0 | B0 | B0 C°
+[A3]
+ C6 Bb7 | A7 | D7 | C#7
+ C6/9 Eb7 | D-9 C#7 | C6 | %`
 };
-/* >>> ENDE VORGABE-CHART <<< */
 
 function loadData(d){
   $('f-title').value=d.title||''; $('f-key').value=d.key||'C';

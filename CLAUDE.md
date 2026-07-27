@@ -2,7 +2,7 @@
 
 > **Einstiegspunkt für jeden neuen Chat.** Repo: `nomiknomik/akkordgitter-generator`
 > (öffentlich). Dateien per GitHub-API lesen (`github-push`-Skill) oder Repo klonen,
-> dann hier weiterlesen. Aktuelle Version: **v1.6**.
+> dann hier weiterlesen. Aktuelle Version: **v1.7**.
 >
 > Was als Nächstes geplant ist, steht in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -36,6 +36,7 @@ kommuniziert deutsch, mag knappe Antworten und achtet auf Token-Effizienz.
 | `docs/pdf-extraktion.md` | **Griffe und Songs aus einem PDF übernehmen** |
 | `docs/skill-ideen.md` | was sich als eigener Skill lohnt — und was nicht |
 | `docs/entwicklungslog.md` | Entscheidungen, Fehler, Prüfvorgehen |
+| `tools/chart_einbetten.py` | schreibt einen Chart aus `charts/` als Vorgabe in `index.html` (nicht von Hand pflegen) |
 | `tools/griffbild_vektor.py` | **liest Griffbilder aus der PDF-Vektorebene → Bundliste (exakt, zuerst versuchen)** |
 | `tools/griffbild_lesen.py` | liest Griffbilder aus Bildern → Bundliste (Rückfall, wenn die Seite ein Bild ist) |
 | `tools/voicing_pruefen.py` | rechnet Bundlisten gegen die Akkordtöne |
