@@ -19,6 +19,9 @@ Stand v1.5.
 - **La Pompe**, **automatische Tonarterkennung**, farbcodierte Griffbilder.
 - **Video-Synchronisation** mit YouTube (v1.6), lineare Zuordnung über zwei
   Stützstellen.
+- **Geschwindigkeitsregler für Video-Sync** (v1.11): `setPlaybackRate()` plus
+  Rückfall auf YouTubes eigenes Zahnrad. Sync-Zeiten bleiben unverändert
+  gültig, da die Kalibrierung auf Videoposition rechnet, nicht auf Echtzeit.
 
 ---
 

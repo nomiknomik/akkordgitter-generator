@@ -306,6 +306,22 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
       <button id="b-vload">Video laden</button>
       <label class="chk"><input type="checkbox" id="f-follow"> Video folgen</label>
     </div>
+    <div class="row">
+      <label class="f" style="flex:0 0 160px">Geschwindigkeit
+        <input type="number" id="f-rate" list="rate-vorschlaege" value="1" step="0.05" min="0.1" max="2">
+      </label>
+      <datalist id="rate-vorschlaege">
+        <option value="0.5"><option value="0.75"><option value="0.85">
+        <option value="0.9"><option value="1"><option value="1.25"><option value="1.5">
+      </datalist>
+      <span class="help" id="rateinfo" style="flex:1 1 auto;padding-top:8px"></span>
+    </div>
+    <div class="help" style="margin:2px 0 8px">
+      Bezugspunkte sind Videoposition, keine Echtzeit — <b>die Sync-Zeiten bleiben
+      bei jeder Geschwindigkeit gültig</b>, ohne Neukalibrierung. Setzt YouTube die
+      Rate nicht (manche Videos schränken sie ein), das Zahnrad im Player unten
+      rechts verwenden — auch das läuft ohne Neukalibrierung mit.
+    </div>
     <div class="help" style="margin:2px 0 8px">
       Die App weiß nicht, wo im Video das Stück beginnt und wie schnell gespielt
       wird. Dafür setzt man Bezugspunkte: Video auf die Eins des jeweiligen
@@ -395,7 +411,7 @@ details summary{cursor:pointer;font-size:11px;letter-spacing:.14em;text-transfor
   </div>
   <div class="sheet" id="sheet"></div>
   <footer class="colophon">
-    <span><b>Akkordgitter-Generator</b> v1.9</span>
+    <span><b>Akkordgitter-Generator</b> v1.11</span>
     <span>Alexander Zabelyshenskiy</span>
     <a href="https://github.com/nomiknomik/akkordgitter-generator" target="_blank" rel="noopener">
       github.com/nomiknomik/akkordgitter-generator</a>
@@ -1475,7 +1491,7 @@ function togglePlay(){ audio.on?stopPlay():startPlay(); }
    ============================================================ */
 const vid = {player:null, ready:false, base:null, spb:null, adj:0, grob:false,
              pts:[3,9,13,17].map(n=>({n, t:null, adj:0})),
-             cur:null, id:'', raf:null};
+             cur:null, id:'', raf:null, rate:1};
 
 function ytId(s){
   s=(s||'').trim();
@@ -1485,6 +1501,26 @@ function ytId(s){
   return /^[A-Za-z0-9_-]{11}$/.test(s) ? s : '';
 }
 function ytHint(t){ $('ythint').innerHTML=t; }
+
+/* Geschwindigkeit ändert nur, wie schnell die Videoposition abläuft — nicht
+   deren Wert. calibrate()/barTime() rechnen mit Videoposition (getCurrentTime),
+   bleiben also bei jeder Rate gültig. Bei fest vorgegebenen YouTube-Raten
+   (0.25/0.5/…/2) klappt setPlaybackRate zuverlässig; ungewöhnliche Werte wie
+   0.85 nimmt nicht jedes Video an — dann zeigt onPlaybackRateChange die
+   tatsächlich übernommene Rate zurück. */
+function setRate(r){
+  r=parseFloat(r); if(!r||r<=0) r=1;
+  vid.rate=r;
+  if(vid.player && vid.ready) vid.player.setPlaybackRate(r);
+  rateInfo(r);
+}
+function rateInfo(r){
+  const info=$('rateinfo'); if(!info) return;
+  info.textContent = (r===1) ? '' : ('läuft mit '+r+'× — Sync unverändert gültig');
+}
+function rateChanged(r){                        // Rückmeldung der YT-API
+  vid.rate=r; if($('f-rate')) $('f-rate').value=r; rateInfo(r);
+}
 
 function ytLoad(){
   const id=ytId($('f-vid').value);
@@ -1502,8 +1538,10 @@ function ytLoad(){
       videoId:id, host:'https://www.youtube-nocookie.com',
       playerVars:{rel:0, modestbranding:1, playsinline:1},
       events:{
-        onReady:()=>{ vid.ready=true; ytHint('Video bereit. Jetzt Schritt 1: an die Eins von Takt 1 spulen und links „hier beginnt Takt 1“ drücken.'); },
-        onError:e=>ytHint('Das Video lässt sich nicht einbetten (Fehler '+e.data+'). Möglicherweise hat der Rechteinhaber die Einbettung gesperrt.')
+        onReady:()=>{ vid.ready=true; if(vid.rate!==1) vid.player.setPlaybackRate(vid.rate);
+                     ytHint('Video bereit. Jetzt Schritt 1: an die Eins von Takt 1 spulen und links „hier beginnt Takt 1“ drücken.'); },
+        onError:e=>ytHint('Das Video lässt sich nicht einbetten (Fehler '+e.data+'). Möglicherweise hat der Rechteinhaber die Einbettung gesperrt.'),
+        onPlaybackRateChange:e=>rateChanged(e.data)
       }
     });
   };
@@ -1762,6 +1800,7 @@ function loadData(d){
       return {n:(q&&q.n)||n, t:(q&&q.t!==undefined)?q.t:null, adj:(q&&q.adj)||0};
     });
     vid.pts.forEach((q,i)=>{ if($('f-caln'+i)) $('f-caln'+i).value=q.n; });
+    vid.rate=v.rate||1; if($('f-rate')) $('f-rate').value=vid.rate; rateInfo(vid.rate);
     recalc(); if($('synco')) syncInfo();
     if($('synco')) syncInfo();
   }
@@ -1774,7 +1813,7 @@ function currentData(){
     bpm:+$('f-bpm').value,inst:INST_ID,sound:$('f-sound').value,
     vsrc:SRCPREF, groove:($('f-groove')?$('f-groove').value:'gerade'),
     video:{id:ytId($('f-vid')?$('f-vid').value:''), t0:vid.base, spb:vid.spb,
-           adj:vid.adj, pts:vid.pts.map(p=>({n:p.n,t:p.t,adj:p.adj}))},
+           adj:vid.adj, rate:vid.rate, pts:vid.pts.map(p=>({n:p.n,t:p.t,adj:p.adj}))},
     src:$('f-src').value,variants:state.variants};
 }
 
@@ -1790,6 +1829,7 @@ function currentData(){
     SRCPREF=$('f-vsrc').value; state.variants={}; render(); pushHistDebounced();
   });
   $('b-vload').onclick=ytLoad;
+  $('f-rate').addEventListener('change',()=>setRate($('f-rate').value));
   vid.pts.forEach((_,i)=>{
     $('b-cal'+i).onclick=()=>calibrate(i);
     $('b-cm'+i).onclick=()=>punktJustieren(i,-20);

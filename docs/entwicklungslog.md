@@ -124,3 +124,24 @@ werden. Echte Deduplizierung bräuchte neue Syntax (z. B. `[Solo A]=A`) — sieh
 → *Lehre:* Bei mehrteiligen PDFs (Melodie + Solo + Tag) zuerst die volle
 Taktzahl aus `pdfinfo`/Blattzahl gegen die im Chart erfasste Taktzahl prüfen,
 bevor eine Extraktion als vollständig gilt.
+
+## Geschwindigkeitsregler im Video-Sync (v1.11)
+
+Wunsch: YouTube-Video zum Üben verlangsamen können, notfalls mit Angabe der
+tatsächlich eingestellten Rate, damit die Sync-Zeiten stimmen.
+
+**Prüfung ergab: keine Anpassung nötig.** `barTime()`/`recalc()` bilden
+Taktnummer → *Videoposition* ab (`player.getCurrentTime()`), nicht → Echtzeit.
+`getCurrentTime()` ist die Position im Medium selbst und läuft unabhängig von
+der Wiedergaberate immer korrekt mit — ob per `setPlaybackRate()` oder über
+das YouTube-eigene Zahnrad geändert. Die Kalibrierung (Bezugspunkte, Steigung,
+Achsenabschnitt) bleibt bei jeder Rate identisch gültig.
+
+**Umsetzung:** nur ein Bedienelement (`f-rate`, ruft `setPlaybackRate()`) plus
+Rückkanal (`onPlaybackRateChange`), falls YouTube einen Wunschwert wie 0.85
+nicht übernimmt und die Person stattdessen das eigene Zahnrad benutzt — dann
+zieht die App den tatsächlichen Wert nur zur Anzeige nach, ohne Neuberechnung.
+
+→ *Lehre:* Vor einer Rechen-Erweiterung erst prüfen, in welcher Einheit
+(Zeit vs. Position) die bestehende Kalibrierung überhaupt rechnet — das erspart
+hier eine ganze Interpolationsschicht, die der Wunsch zunächst nahelegte.

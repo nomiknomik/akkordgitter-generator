@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.11 — 2026-07-28
+- **Geschwindigkeitsregler im Video-Sync** (`f-rate`, `setRate()`): setzt
+  YouTubes `setPlaybackRate()`, mit Datalist-Vorschlägen (0.5–1.5, inkl. 0.85/0.9)
+  und freiem Zahlenfeld. Kalibrierung bleibt bei jeder Rate gültig, da
+  `barTime()`/`recalc()` auf Videoposition (`getCurrentTime()`) rechnen, nicht
+  auf Echtzeit — keine Neukalibrierung nötig. `onPlaybackRateChange` spiegelt
+  eine über das YouTube-eigene Zahnrad geänderte Rate zurück, falls die API
+  einen Wunschwert nicht annimmt. Rate wird im Chart-Export mitgespeichert
+  (`video.rate`). Von Alexander Zabelyshenskiy angeregt.
+- Footer-Versionsnummer war noch auf v1.9 stehengeblieben (v1.10 fehlte dort) —
+  korrigiert.
+
 ## v1.10 — 2026-07-27
 - **Holovaty-Chart *All Of Me* um Solo-Chorus und erweitertes Schluss-Tag ergänzt**
   (Takt 33–68, aus der Vektorebene der PDF gelesen, siehe `docs/pdf-extraktion.md`).
